@@ -1,0 +1,9 @@
+{
+  "firebase": "issue-zero",
+  "public": ".",
+  "ignore": [
+    "firebase.json",
+    "**/.*",
+    "**/node_modules/**"
+  ]
+}
