@@ -1,0 +1,60 @@
+{
+  "name": "issue-zero",
+  "version": "1.0.0",
+  "description": "Github issue management app.",
+  "main": "index.js",
+  "scripts": {
+    "test": "karma start",
+    "postinstall": "typings install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/angular/issue-zero.git"
+  },
+  "contributors": [
+    {
+      "name": "Rob Wormald",
+      "url": "https://twitter.com/robwormald"
+    },
+    {
+      "name": "Alex Rickabaugh",
+      "url": "https://twitter.com/synalx"
+    },
+    {
+      "name": "Jeff Cross",
+      "url": "https://twitter.com/jeffbcross"
+    }
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/angular/issue-zero/issues"
+  },
+  "homepage": "https://github.com/angular/issue-zero#readme",
+  "keywords": [
+    "angular",
+    "angular2",
+    "progressive web apps",
+    "github",
+    "mobile"
+  ],
+  "devDependencies": {
+    "fs-extra": "^0.26.7",
+    "gulp": "^3.9.1",
+    "gulp-typescript": "^2.12.1",
+    "karma": "^0.13.22",
+    "merge2": "^1.0.1",
+    "systemjs": "^0.19.24",
+    "systemjs-builder": "^0.15.13",
+    "ts-node": "^0.7.1",
+    "typescript": "^1.8.9",
+    "typings": "^0.7.9"
+  },
+  "dependencies": {
+    "angular2": "^2.0.0-beta.11",
+    "es6-promise": "^3.1.2",
+    "es6-shim": "^0.35.0",
+    "reflect-metadata": "^0.1.2",
+    "rxjs": "^5.0.0-beta.2",
+    "zone.js": "^0.6.6"
+  }
+}
