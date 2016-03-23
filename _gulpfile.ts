@@ -11,7 +11,13 @@ const clientTsProject = ts.createProject('src/client/tsconfig.json', {
 const clientRoot = 'src/client';
 const distClientRoot = 'dist/client';
 const clientTsTree = [`${clientRoot}/app/**/*.ts`, 'typings/browser/ambient/**/*.ts'];
-const clientVendorDeps = ['node_modules/angular2/**/*.js', 'node_modules/systemjs/**/*.js'];
+const clientVendorDeps = [
+  'node_modules/angular2/**/*.js',
+  'node_modules/systemjs/**/*.js',
+  'node_modules/rxjs/**/*.js',
+  'node_modules/zone.js/dist/*.js',
+  'node_modules/reflect-metadata/Reflect.js'
+];
 const clientHtmlTree = [`${clientRoot}/**/*.html`];
 
 gulp.task('clean', (done) => {

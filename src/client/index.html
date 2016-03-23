@@ -1,8 +1,41 @@
+<!doctype html>
 <html>
   <head>
-
+    <meta charset="utf-8">
+    <title>Issue Zero</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta id="theme-color" name="theme-color" content="#999999">
   </head>
   <body>
-    
+    <issue-zero-app></issue-zero-app>
+    <script src="vendor/zone.js/dist/zone.min.js"></script>
+    <script src="vendor/zone.js/dist/long-stack-trace-zone.min.js"></script>
+    <script src="vendor/systemjs/dist/system.js"></script>
+    <script src="vendor/reflect-metadata/Reflect.js"></script>
+    <script>
+      System.config({
+        map: {
+          app: './app',
+          angular2: './vendor/angular2',
+          rxjs: './vendor/rxjs'
+        },
+        packages: {
+          angular2: {
+            defaultExtension: 'js'
+          },
+          app: {
+            main: 'index.js',
+            defaultExtension: 'js'
+          },
+          rxjs: {
+            defaultExtension: 'js'
+          }
+        }
+      });
+    </script>
+    <script>
+      System.import('app');
+    </script>
   </body>
 </html>
