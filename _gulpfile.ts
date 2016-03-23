@@ -1,4 +1,4 @@
-declare var require:any;
+/// <reference path="typings/main/ambient/node/index.d.ts" />
 var gulp = require('gulp');
 var ts = require('gulp-typescript');
 var fse = require('fs-extra');
@@ -37,3 +37,21 @@ gulp.task('build:client', ['clean'], () => {
       .pipe(gulp.dest(`${distClientRoot}/vendor`))
   ]);
 });
+
+
+
+gulp.task('enforce-format', function() {
+  return doCheckFormat().on('warning', function(e) {
+    console.log("ERROR: You forgot to run clang-format on your change.");
+    console.log("See https://github.com/angular/angular/blob/master/DEVELOPER.md#clang-format");
+    process.exit(1);
+  });
+});
+
+function doCheckFormat() {
+  var clangFormat = require('clang-format');
+  var gulpFormat = require('gulp-clang-format');
+
+  return gulp.src(`${clientRoot}/**/*.ts`)
+      .pipe(gulpFormat.checkFormat('file', clangFormat));
+}

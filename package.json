@@ -4,7 +4,7 @@
   "description": "Github issue management app.",
   "main": "index.js",
   "scripts": {
-    "test": "karma start",
+    "test": "karma start --single-run; gulp enforce-format",
     "postinstall": "typings install"
   },
   "repository": {
@@ -38,8 +38,10 @@
     "mobile"
   ],
   "devDependencies": {
+    "clang-format": "^1.0.37",
     "fs-extra": "^0.26.7",
     "gulp": "^3.9.1",
+    "gulp-clang-format": "^1.0.23",
     "gulp-typescript": "^2.12.1",
     "jasmine-core": "^2.4.1",
     "karma": "^0.13.22",
