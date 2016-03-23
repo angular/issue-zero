@@ -10,7 +10,7 @@ const clientTsProject = ts.createProject('src/client/tsconfig.json', {
 
 const clientRoot = 'src/client';
 const distClientRoot = 'dist/client';
-const clientTsTree = [`${clientRoot}/app/**/*.ts`, 'typings/browser/ambient/**/*.ts'];
+const clientTsTree = [`${clientRoot}/app/**/*.ts`];
 const clientVendorDeps = [
   'node_modules/angular2/**/*.js',
   'node_modules/systemjs/**/*.js',
@@ -26,7 +26,7 @@ gulp.task('clean', (done) => {
 
 gulp.task('build:client', ['clean'], () => {
   return merge2([
-    gulp.src(clientTsTree)
+    gulp.src(clientTsTree.concat('typings/browser/ambient/**/*.ts'))
       .pipe(ts(clientTsProject))
       .pipe(gulp.dest(`${distClientRoot}/app`)),
     gulp.src(clientHtmlTree)
@@ -46,6 +46,28 @@ gulp.task('enforce-format', function() {
     console.log("See https://github.com/angular/angular/blob/master/DEVELOPER.md#clang-format");
     process.exit(1);
   });
+});
+
+gulp.task('lint', function() {
+  var tslint = require('gulp-tslint');
+  // Built-in rules are at
+  // https://github.com/palantir/tslint#supported-rules
+  var tslintConfig = {
+    "rules": {
+      "requireInternalWithUnderscore": true,
+      "requireParameterType": true,
+      "requireReturnType": true,
+      "semicolon": true,
+      "variable-name": false
+    }
+  };
+  return gulp.src(clientTsTree)
+      .pipe(tslint({
+        tslint: require('tslint').default,
+        configuration: tslintConfig,
+        rulesDirectory: 'tools/tslint'
+      }))
+      .pipe(tslint.report('prose', {emitError: true}));
 });
 
 function doCheckFormat() {
