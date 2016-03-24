@@ -12,7 +12,7 @@ import {IssuesComponent} from './issues/issues';
   directives: ROUTER_DIRECTIVES
 })
 @RouteConfig([{
-  path: 'issues',
+  path: 'issues/...',
   component: IssuesComponent,
   useAsDefault: true
 }])
