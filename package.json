@@ -4,8 +4,9 @@
   "description": "Github issue management app.",
   "main": "index.js",
   "scripts": {
-    "test": "karma start --single-run; gulp enforce-format",
-    "postinstall": "typings install"
+    "test": "karma start --single-run; gulp enforce-format; gulp lint",
+    "postinstall": "typings install",
+    "start": "cd dist/client; firebase serve"
   },
   "repository": {
     "type": "git",
@@ -39,6 +40,7 @@
   ],
   "devDependencies": {
     "clang-format": "^1.0.37",
+    "firebase-tools": "^2.2.1",
     "fs-extra": "^0.26.7",
     "gulp": "^3.9.1",
     "gulp-clang-format": "^1.0.23",
