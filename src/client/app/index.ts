@@ -4,6 +4,4 @@ import {ROUTER_PROVIDERS, APP_BASE_HREF} from 'angular2/router';
 
 import {AppComponent} from './app';
 
-bootstrap(AppComponent, [
-  ROUTER_PROVIDERS
-]);
+bootstrap(AppComponent, [ ROUTER_PROVIDERS ]);

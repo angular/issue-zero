@@ -9,12 +9,10 @@ import {IssuesComponent} from './issues/issues';
     <h1>Hello!</h1>
     <router-outlet></router-outlet>
   `,
-  directives: ROUTER_DIRECTIVES
+  directives : ROUTER_DIRECTIVES,
+  providers : []
 })
-@RouteConfig([{
-  path: 'issues/...',
-  component: IssuesComponent,
-  useAsDefault: true
-}])
+@RouteConfig(
+    [ {path : 'issues/...', component : IssuesComponent, useAsDefault : true} ])
 export class AppComponent {
 }
