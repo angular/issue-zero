@@ -9,17 +9,9 @@
     "moduleResolution": "node",
     "noEmitOnError": true,
     "noImplicitAny": false,
-    "outDir": "../../dist/client/",
     "rootDir": ".",
     "sourceMap": true,
     "sourceRoot": "/",
     "target": "es5"
-  },
-
-  "files": [
-    "app/index.ts",
-    "app/app.ts",
-    "app/app.spec.ts",
-    "typings.d.ts"
-  ]
+  }
 }

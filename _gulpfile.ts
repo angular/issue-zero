@@ -13,10 +13,12 @@ const distClientRoot = 'dist/client';
 const clientTsTree = [`${clientRoot}/app/**/*.ts`];
 const clientVendorDeps = [
   'node_modules/angular2/**/*.js',
-  'node_modules/systemjs/**/*.js',
-  'node_modules/rxjs/**/*.js',
+  'node_modules/systemjs/**/*.+(js|map)',
+  'node_modules/rxjs/**/*.+(js|map)',
   'node_modules/zone.js/dist/*.js',
-  'node_modules/reflect-metadata/Reflect.js'
+  'node_modules/reflect-metadata/Reflect.+(js|map)',
+  'node_modules/@angular2-material/**/*.+(js|css|html|map)',
+  'node_modules/material-design-icons/**/*.+(css|svg|woff|ttf|eot|woff2)'
 ];
 const clientHtmlTree = [`${clientRoot}/**/*.html`];
 
