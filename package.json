@@ -65,11 +65,13 @@
     "@angular2-material/sidenav": "^2.0.0-alpha.1",
     "@angular2-material/toolbar": "^2.0.0-alpha.1",
     "angular2": "^2.0.0-beta.8",
+    "angularfire2": "^2.0.0-alpha.13",
     "es6-promise": "^3.1.2",
     "es6-shim": "^0.33.13",
     "material-design-icons": "^2.2.3",
     "reflect-metadata": "^0.1.2",
     "rxjs": "^5.0.0-beta.2",
+    "typings": "^0.7.11",
     "zone.js": "^0.5.15"
   }
 }
