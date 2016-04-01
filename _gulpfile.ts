@@ -2,7 +2,7 @@
 var gulp = require('gulp');
 var ts = require('gulp-typescript');
 var fse = require('fs-extra');
-var merge2 = require('merge2');
+var runSequence = require('run-sequence');
 
 const clientTsProject = ts.createProject('src/client/tsconfig.json', {
   typescript: require('typescript'),
@@ -10,9 +10,11 @@ const clientTsProject = ts.createProject('src/client/tsconfig.json', {
 
 const clientRoot = 'src/client';
 const distClientRoot = 'dist/client';
-const clientTsTree = [`${clientRoot}/app/**/*.ts`];
+const clientTsTree = [`${clientRoot}/app/**/*.ts`, 'typings/browser/browser.d.ts'];
 const clientVendorDeps = [
   'node_modules/angular2/**/*.js',
+  'node_modules/angularfire2/**/*.js',
+  'node_modules/firebase/**/*.js',
   'node_modules/systemjs/**/*.+(js|map)',
   'node_modules/rxjs/**/*.+(js|map)',
   'node_modules/zone.js/dist/*.js',
@@ -21,25 +23,52 @@ const clientVendorDeps = [
   'node_modules/material-design-icons/**/*.+(css|svg|woff|ttf|eot|woff2)'
 ];
 const clientHtmlTree = [`${clientRoot}/**/*.html`];
+const clientCssTree = [`${clientRoot}/**/*.css`];
 
 gulp.task('clean', (done) => {
   return fse.remove('dist', done);
 });
 
-gulp.task('build:client', ['clean'], () => {
-  return merge2([
-    gulp.src(clientTsTree.concat('typings/browser/ambient/**/*.ts'))
-      .pipe(ts(clientTsProject))
-      .pipe(gulp.dest(`${distClientRoot}/app`)),
-    gulp.src(clientHtmlTree)
-      .pipe(gulp.dest(distClientRoot)),
-    gulp.src(`${clientRoot}/firebase.json`)
-      .pipe(gulp.dest(distClientRoot)),
-    gulp.src(clientVendorDeps, {base: 'node_modules'})
-      .pipe(gulp.dest(`${distClientRoot}/vendor`))
-  ]);
+gulp.task('build:client', ['clean'], (callback) => {
+  runSequence(
+    'build:client/typescript',
+    'build:client/html',
+    'build:client/css',
+    'build:client/firebase',
+    'build:client/vendor',
+    callback);
 });
 
+
+gulp.task('build:client/vendor', () => {
+  return gulp.src(clientVendorDeps, {base: 'node_modules'})
+      .pipe(gulp.dest(`${distClientRoot}/vendor`));
+});
+
+
+gulp.task('build:client/firebase', () => {
+  return gulp.src(`${clientRoot}/firebase.json`)
+      .pipe(gulp.dest(distClientRoot));
+});
+
+
+gulp.task('build:client/html', () => {
+  return gulp.src(clientHtmlTree)
+    .pipe(gulp.dest(distClientRoot));
+});
+
+
+gulp.task('build:client/typescript', () => {
+  return gulp.src(clientTsTree.concat('typings/browser/ambient/**/*.ts'))
+    .pipe(ts(clientTsProject))
+    .pipe(gulp.dest(`${distClientRoot}/app`))
+});
+
+
+gulp.task('build:client/css', () => {
+  return gulp.src(clientCssTree)
+    .pipe(gulp.dest(distClientRoot));
+});
 
 
 gulp.task('enforce-format', function() {
