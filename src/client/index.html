@@ -63,24 +63,25 @@
     <script src="vendor/zone.js/dist/long-stack-trace-zone.min.js"></script>
     <script src="vendor/systemjs/dist/system.js"></script>
     <script src="vendor/reflect-metadata/Reflect.js"></script>
+    <script src="vendor/angular2/bundles/angular2.dev.js"></script>
+    <script src="vendor/angular2/bundles/router.min.js"></script>
+    <script src="vendor/rxjs/bundles/Rx.min.js"></script>
     <script>
       System.config({
         map: {
           app: './app',
-          angular2: './vendor/angular2',
-          rxjs: './vendor/rxjs',
+          angularfire2: './vendor/angularfire2',
+          firebase: './vendor/firebase/lib/firebase-web.js',
           '@angular2-material': '/vendor/@angular2-material'
         },
 
         packages: {
-          angular2: {
-            defaultExtension: 'js'
+          angularfire2: {
+            defaultExtension: 'js',
+            main: 'angularfire2.js'
           },
           app: {
             main: 'index.js',
-            defaultExtension: 'js'
-          },
-          rxjs: {
             defaultExtension: 'js'
           },
           '@angular2-material/core': {
