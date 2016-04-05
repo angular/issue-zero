@@ -7,7 +7,19 @@
     "**/node_modules/**"
   ],
   "rewrites": [{
-    "source": "**",
+    "source": "/issues",
+    "destination": "/index.html"
+  },{
+    "source": "/login",
+    "destination": "/index.html"
+  },{
+    "source": "/issues/close",
+    "destination": "/index.html"
+  },{
+    "source": "/issues/list",
+    "destination": "/index.html"
+  },{
+    "source": "/issues/triage",
     "destination": "/index.html"
   }]
 }

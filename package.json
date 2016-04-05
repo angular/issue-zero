@@ -6,7 +6,8 @@
   "scripts": {
     "test": "karma start --single-run; gulp enforce-format; gulp lint",
     "postinstall": "typings install",
-    "start": "cd dist/client; firebase serve"
+    "start": "cd dist/client && firebase serve",
+    "deploy": "cd dist/client && firebase deploy"
   },
   "repository": {
     "type": "git",
