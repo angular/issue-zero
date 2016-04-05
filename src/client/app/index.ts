@@ -21,4 +21,8 @@ bootstrap(AppComponent, [
     method: AuthMethods.Redirect,
     scope: ['repo']
   })
-]);
+]).then(() => {
+  if (typeof performance !== 'undefined' && performance.timing && performance.timing.navigationStart) {
+    console.log('total time to bootstrap', Date.now() - performance.timing.navigationStart);
+  }
+});
