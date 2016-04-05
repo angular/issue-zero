@@ -32,88 +32,43 @@
         font-family: 'Material Icons';
         font-style: normal;
         font-weight: 400;
-        src: url(vendor/material-design-icons/iconfont/MaterialIcons-Regular.eot); /* For IE6-8 */
+        src: url(/vendor/material-design-icons/iconfont/MaterialIcons-Regular.eot); /* For IE6-8 */
         src: local('Material Icons'),
             local('MaterialIcons-Regular'),
-            url(vendor/material-design-icons/iconfont/MaterialIcons-Regular.woff2) format('woff2'),
-            url(vendor/material-design-icons/iconfont/MaterialIcons-Regular.woff) format('woff'),
-            url(vendor/material-design-icons/iconfont/MaterialIcons-Regular.ttf) format('truetype');
+            url(/vendor/material-design-icons/iconfont/MaterialIcons-Regular.woff2) format('woff2'),
+            url(/vendor/material-design-icons/iconfont/MaterialIcons-Regular.woff) format('woff'),
+            url(/vendor/material-design-icons/iconfont/MaterialIcons-Regular.ttf) format('truetype');
       }
       .material-icons {
-        font-family: 'Material Icons';
-        font-weight: normal;
-        font-style: normal;
-        font-size: 24px;  /* Preferred icon size */
-        display: inline-block;
-        line-height: 1;
-        text-transform: none;
-        letter-spacing: normal;
-        word-wrap: normal;
-        white-space: nowrap;
-        direction: ltr;
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;  /* Preferred icon size */
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+
 
 
       }
     </style>
     <base href="/">
+    <script src="/vendor/angular2-polyfills.js"></script>
+    <!--<script src="/vendor/long-stack-trace-zone.js"></script>-->
+    <script src="/vendor/system.js"></script>
+    <!--<script src="/vendor/Reflect.js"></script>-->
+    <script src="/app.js"></script>
   </head>
   <body>
     <issue-zero-app></issue-zero-app>
-    <script src="vendor/zone.js/dist/zone.min.js"></script>
-    <script src="vendor/zone.js/dist/long-stack-trace-zone.min.js"></script>
-    <script src="vendor/systemjs/dist/system.js"></script>
-    <script src="vendor/reflect-metadata/Reflect.js"></script>
-    <script src="vendor/angular2/bundles/angular2.dev.js"></script>
-    <script src="vendor/angular2/bundles/router.min.js"></script>
-    <script src="vendor/rxjs/bundles/Rx.min.js"></script>
     <script>
-      System.config({
-        map: {
-          app: './app',
-          angularfire2: './vendor/angularfire2',
-          firebase: './vendor/firebase/lib/firebase-web.js',
-          '@angular2-material': '/vendor/@angular2-material'
-        },
-
-        packages: {
-          angularfire2: {
-            defaultExtension: 'js',
-            main: 'angularfire2.js'
-          },
-          app: {
-            main: 'index.js',
-            defaultExtension: 'js'
-          },
-          '@angular2-material/core': {
-            format: 'cjs',
-            defaultExtension: 'js',
-            main: 'core.js'
-          },
-          '@angular2-material/toolbar': {
-            format: 'cjs',
-            defaultExtension: 'js',
-            main: 'toolbar.js'
-          },
-          '@angular2-material/sidenav': {
-            format: 'cjs',
-            defaultExtension: 'js',
-            main: 'sidenav.js'
-          },
-          '@angular2-material/button': {
-            format: 'cjs',
-            defaultExtension: 'js',
-            main: 'button.js'
-          },
-          '@angular2-material/card': {
-            format: 'cjs',
-            defaultExtension: 'js',
-            main: 'card.js'
-          }
-        }
-      });
-    </script>
-    <script>
-      System.import('app');
+      System.import('tmp/client/app/index.js');
     </script>
   </body>
 </html>
