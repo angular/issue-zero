@@ -6,11 +6,13 @@ import {FB_URL} from '../config';
 import {ListComponent} from './list/list';
 import {CloseComponent} from './close/close';
 
-@Component(
-    {template : `
+@Component({
+  template : `
 issues.html
 <router-outlet></router-outlet>
-      `, directives : ROUTER_DIRECTIVES})
+      `,
+  directives : ROUTER_DIRECTIVES
+})
 @RouteConfig([
   new AsyncRoute({
     path : '/close',

@@ -1,10 +1,32 @@
 /// <reference path="typings/main/ambient/node/index.d.ts" />
 
+/**
+ * TODO(jeffbcross): remove this when a better solution is found
+ * This hack is necessary for universal precompilation to work with
+ * material components that reference `Event`.
+ */
+(<any>global).Event = function () {
+  console.log('constructing event');
+  return {};
+};
+import 'angular2-universal-preview/polyfills';
+import {REQUEST_URL, NODE_LOCATION_PROVIDERS} from 'angular2-universal-preview';
+import {provide, enableProdMode} from 'angular2/core';
+import {APP_BASE_HREF, ROUTER_PROVIDERS} from 'angular2/router';
+import {prerender} from 'angular2-gulp-prerender';
+import {defaultFirebase, FIREBASE_PROVIDERS} from 'angularfire2';
+
+import {AppComponent} from './src/client/app/app';
+import {IS_PRERENDER} from './src/client/app/config';
+
 var gulp = require('gulp');
 var ts = require('gulp-typescript');
+var fs = require('fs');
 var fse = require('fs-extra');
 var runSequence = require('run-sequence');
 var Builder = require('systemjs-builder');
+var concat = require('gulp-concat');
+var uglify = require('gulp-uglify');
 
 const clientTsProject = ts.createProject('src/client/tsconfig.json', {
   typescript: require('typescript'),
@@ -31,6 +53,30 @@ const clientVendorDeps = [
 const clientHtmlTree = [`${CLIENT_ROOT}/**/*.html`];
 const clientCssTree = [`${CLIENT_ROOT}/**/*.css`];
 
+// Used for pre-rendering app-shell
+enableProdMode();
+
+gulp.task('prerender', () => {
+  return gulp.src('./src/client/index.html')
+    .pipe(prerender({
+      directives: [ AppComponent ],
+      providers: [
+        provide(APP_BASE_HREF, {useValue: '/'}),
+        provide(REQUEST_URL, {useValue: '/'}),
+        ROUTER_PROVIDERS,
+        NODE_LOCATION_PROVIDERS,
+        provide(IS_PRERENDER, {
+          useValue: true
+        }),
+        FIREBASE_PROVIDERS,
+        defaultFirebase('https://issue-zero.firebaseio.com')
+      ],
+      preboot: true
+    }))
+    .pipe(gulp.dest('dist/client'));
+});
+
+
 gulp.task('clean', (done) => {
   return fse.remove('dist', done);
 });
@@ -40,6 +86,20 @@ gulp.task('bundle:client', ['build:client'], (done) => {
   builder.config(systemCfg);
   builder.bundle('tmp/client/app/index.js', 'dist/client/app.js')
     .then(() => done());
+});
+
+gulp.task('concat', () => {
+  return gulp.src([
+    'node_modules/angular2/bundles/angular2-polyfills.js',
+    'node_modules/systemjs/dist/system.js',
+    'dist/client/app.js',
+    'src/client/loader.js'
+    ])
+    .pipe(concat('app-concat.js'))
+    .pipe(uglify({
+      mangle: false
+    }))
+    .pipe(gulp.dest('./dist/client'));
 });
 
 gulp.task('build:client', ['clean'], (callback) => {
@@ -126,6 +186,11 @@ gulp.task('lint', function() {
         rulesDirectory: 'tools/tslint'
       }))
       .pipe(tslint.report('prose', {emitError: true}));
+});
+
+gulp.task('default', [
+  'bundle:client', 'prerender'], (callback) => {
+    runSequence(['concat'], callback);
 });
 
 function doCheckFormat() {

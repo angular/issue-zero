@@ -46,6 +46,11 @@
       "format": "cjs",
       "defaultExtension": "js",
       "main": "card.js"
+    },
+    "@angular2-material/progress-circle": {
+      "format": "cjs",
+      "defaultExtension": "js",
+      "main": "progress-circle.js"
     }
   }
 }
