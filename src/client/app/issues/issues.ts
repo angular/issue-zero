@@ -7,7 +7,10 @@ import {ListComponent} from './list/list';
 import {CloseComponent} from './close/close';
 
 @Component(
-    {templateUrl : 'app/issues/issues.html', directives : ROUTER_DIRECTIVES})
+    {template : `
+issues.html
+<router-outlet></router-outlet>
+      `, directives : ROUTER_DIRECTIVES})
 @RouteConfig([
   new AsyncRoute({
     path : '/close',
