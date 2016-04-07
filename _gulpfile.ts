@@ -5,28 +5,21 @@
  * This hack is necessary for universal precompilation to work with
  * material components that reference `Event`.
  */
-(<any>global).Event = function () {
-  console.log('constructing event');
-  return {};
-};
-import 'angular2-universal-preview/polyfills';
-import {REQUEST_URL, NODE_LOCATION_PROVIDERS} from 'angular2-universal-preview';
-import {provide, enableProdMode} from 'angular2/core';
-import {APP_BASE_HREF, ROUTER_PROVIDERS} from 'angular2/router';
-import {prerender} from 'angular2-gulp-prerender';
-import {defaultFirebase, FIREBASE_PROVIDERS} from 'angularfire2';
+(<any>global).Event = () => ({});
 
-import {AppComponent} from './src/client/app/app';
-import {IS_PRERENDER} from './src/client/app/config';
+import {concatTask} from './tasks/concat';
+import {prerenderTask} from './tasks/prerender';
+import {bundleTask} from './tasks/bundle';
+import {copyTask} from './tasks/copy';
 
 var gulp = require('gulp');
 var ts = require('gulp-typescript');
 var fs = require('fs');
 var fse = require('fs-extra');
 var runSequence = require('run-sequence');
-var Builder = require('systemjs-builder');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
+var merge2 = require('merge2');
 
 const clientTsProject = ts.createProject('src/client/tsconfig.json', {
   typescript: require('typescript'),
@@ -53,54 +46,19 @@ const clientVendorDeps = [
 const clientHtmlTree = [`${CLIENT_ROOT}/**/*.html`];
 const clientCssTree = [`${CLIENT_ROOT}/**/*.css`];
 
-// Used for pre-rendering app-shell
-enableProdMode();
+gulp.task('clean', done => fse.remove('dist', done));
+gulp.task('prerender', prerenderTask('./src/client/index.html', 'dist/client'));
 
-gulp.task('prerender', () => {
-  return gulp.src('./src/client/index.html')
-    .pipe(prerender({
-      directives: [ AppComponent ],
-      providers: [
-        provide(APP_BASE_HREF, {useValue: '/'}),
-        provide(REQUEST_URL, {useValue: '/'}),
-        ROUTER_PROVIDERS,
-        NODE_LOCATION_PROVIDERS,
-        provide(IS_PRERENDER, {
-          useValue: true
-        }),
-        FIREBASE_PROVIDERS,
-        defaultFirebase('https://issue-zero.firebaseio.com')
-      ],
-      preboot: true
-    }))
-    .pipe(gulp.dest('dist/client'));
-});
+gulp.task('bundle:client', ['build:client'], bundleTask('tmp/client/app/index.js', 'dist/client/app.js', systemCfg));
 
-
-gulp.task('clean', (done) => {
-  return fse.remove('dist', done);
-});
-
-gulp.task('bundle:client', ['build:client'], (done) => {
-  let builder = new Builder();
-  builder.config(systemCfg);
-  builder.bundle('tmp/client/app/index.js', 'dist/client/app.js')
-    .then(() => done());
-});
-
-gulp.task('concat', () => {
-  return gulp.src([
-    'node_modules/angular2/bundles/angular2-polyfills.js',
-    'node_modules/systemjs/dist/system.js',
-    'dist/client/app.js',
-    'src/client/loader.js'
-    ])
-    .pipe(concat('app-concat.js'))
-    .pipe(uglify({
-      mangle: false
-    }))
-    .pipe(gulp.dest('./dist/client'));
-});
+gulp.task('concat', concatTask([
+  'node_modules/angular2/bundles/angular2-polyfills.js',
+  'node_modules/systemjs/dist/system.js',
+  'dist/client/app.js',
+  'src/client/loader.js'
+],
+'app-concat.js',
+'./dist/client'));
 
 gulp.task('build:client', ['clean'], (callback) => {
   runSequence(
@@ -111,50 +69,23 @@ gulp.task('build:client', ['clean'], (callback) => {
     callback);
 });
 
-gulp.task('copy:client', [
-  'copy:client/html',
-  'copy:client/css',
-  'copy:client/firebase',
-  'copy:client/vendor/src',
-  'copy:client/vendor/mdfont'
-]);
-
-gulp.task('copy:client/vendor/src', () => gulp
-  .src([
+gulp.task('copy:client', copyTask(
+  [
     'node_modules/zone.js/dist/long-stack-trace-zone.js',
     'node_modules/systemjs/dist/system.js',
-    'node_modules/angular2/bundles/angular2-polyfills.js'
-  ])
-  .pipe(gulp.dest(`${DIST_CLIENT_ROOT}/vendor`)))
-
-gulp.task('copy:client/vendor/mdfont', () => gulp
-  .src([
+    'node_modules/angular2/bundles/angular2-polyfills.js',
     'node_modules/material-design-icons/iconfont/**/*'
-  ], {base: 'node_modules'})
-  .pipe(gulp.dest(`${DIST_CLIENT_ROOT}/vendor`)));
-
-gulp.task('copy:client/firebase', () => {
-  return gulp.src(`${CLIENT_ROOT}/firebase.json`)
-      .pipe(gulp.dest(DIST_CLIENT_ROOT));
-});
-
-
-gulp.task('copy:client/html', () => {
-  return gulp.src(clientHtmlTree)
-    .pipe(gulp.dest(DIST_CLIENT_ROOT));
-});
+  ],
+  [`${CLIENT_ROOT}/firebase.json`].concat(clientHtmlTree).concat(clientCssTree),
+  `${DIST_CLIENT_ROOT}/vendor`,
+  DIST_CLIENT_ROOT
+));
 
 
 gulp.task('build:client/typescript', () => {
   return gulp.src(clientTsTree.concat('typings/browser/ambient/**/*.ts'))
     .pipe(ts(clientTsProject))
     .pipe(gulp.dest(`${TMP_CLIENT_ROOT}/app`))
-});
-
-
-gulp.task('copy:client/css', () => {
-  return gulp.src(clientCssTree)
-    .pipe(gulp.dest(DIST_CLIENT_ROOT));
 });
 
 
@@ -189,8 +120,8 @@ gulp.task('lint', function() {
 });
 
 gulp.task('default', [
-  'bundle:client', 'prerender'], (callback) => {
-    runSequence(['concat'], callback);
+  'bundle:client'], (callback) => {
+    runSequence(['prerender', 'concat'], callback);
 });
 
 function doCheckFormat() {
