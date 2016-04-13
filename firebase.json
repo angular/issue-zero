@@ -1,6 +1,6 @@
 {
   "firebase": "issue-zero",
-  "public": ".",
+  "public": "dist",
   "ignore": [
     "firebase.json",
     "**/.*",

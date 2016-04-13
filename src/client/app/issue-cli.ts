@@ -1,19 +1,20 @@
 import {Component, Inject} from 'angular2/core';
-import {RouteConfig, ROUTER_DIRECTIVES, Router} from 'angular2/router';
+import {RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS, Router} from 'angular2/router';
+import {AngularFire, FirebaseAuthState} from 'angularfire2';
 import {MdToolbar} from '@angular2-material/toolbar';
-import {MD_SIDENAV_DIRECTIVES} from '@angular2-material/sidenav';
 import {MD_CARD_DIRECTIVES} from '@angular2-material/card';
+import {MD_SIDENAV_DIRECTIVES} from '@angular2-material/sidenav';
 import {MdButton} from '@angular2-material/button';
 import {MdProgressCircle} from '@angular2-material/progress-circle';
-import {AngularFire, FirebaseAuthState} from 'angularfire2';
+import {Observable} from 'rxjs';
+import {Issues} from './issues/issues';
+import {Login} from './login/login';
+import {IS_PRERENDER, IS_POST_LOGIN} from './config';
 
-import {IS_PRERENDER} from './config';
-import {IssuesComponent} from './issues/issues';
-import {LoginComponent} from './login/login';
 
 @Component({
-  selector : 'issue-zero-app',
-  styles : [ `
+  selector: 'issue-cli-app',
+  styles: [`
 md-toolbar button {
   color: white;
   background: transparent;
@@ -50,8 +51,8 @@ md-toolbar md-progress-circle[mode="indeterminate"] /deep/ circle {
 .indicator-container md-progress-circle {
   margin: -50px auto 0;
 }
-` ],
-  template : `
+`],
+  template: `
 <md-sidenav-layout [ngClass]="{'preRendered': isPrerender}">
   <md-sidenav #sidenav>
     <div *ngIf="!isPrerender">
@@ -98,31 +99,43 @@ md-toolbar md-progress-circle[mode="indeterminate"] /deep/ circle {
   <router-outlet *ngIf="!isPrerender"></router-outlet>
 </md-sidenav-layout>
 `,
-  directives : [
-    ROUTER_DIRECTIVES, MdToolbar, MD_CARD_DIRECTIVES, MD_SIDENAV_DIRECTIVES,
-    MdButton, MdProgressCircle
+  directives: [
+    ROUTER_DIRECTIVES, MdToolbar, MD_CARD_DIRECTIVES, MD_SIDENAV_DIRECTIVES, MdButton,
+    MdProgressCircle
   ],
-  providers : []
+  pipes: []
 })
 @RouteConfig([
-  {path : 'issues/...', name : 'Issues', component : IssuesComponent},
-  {path : 'login', name : 'Login', component : LoginComponent}
+  {path: '/issues/...', name: 'Issues', component: Issues},
+  {path: '/login', name: 'Login', component: Login},
 ])
-export class AppComponent {
-  constructor(public af: AngularFire, router: Router,
-              @Inject(IS_PRERENDER) public isPrerender: boolean) {
+export class IssueCliApp {
+  constructor(
+      public af: AngularFire, router: Router, @Inject(IS_PRERENDER) public isPrerender: boolean, @Inject(IS_POST_LOGIN) isPostLogin:boolean) {
     /**
      * Check login state and redirect to appropriate
      * page: Login or Issues route.
      */
     if (!isPrerender) {
-      af.auth
-          .do((state: FirebaseAuthState) => {
+      // If the page was part of the Firebase OAuth flow (the successful login redirect),
+      // then short-circuit the auth observable.
+      Observable.of(isPostLogin)
+          .filter(v => v === true)
+          .concat(af.auth)
+          // Cast nulls to booleans
+          .map(v => !!v)
+          .distinctUntilChanged()
+          .do((loggedIn: boolean) => {
+            console.log('navigating to ', loggedIn)
             // If state is null (user not logged in) navigate to log in
-            router.navigate([ state ? './Issues' : './Login' ]);
+            if (loggedIn) {
+              router.navigate(['./Issues']);
+            } else if (!isPostLogin) {
+              router.navigate(['./Login']);
+            }
           })
           // Only emit if user is logged in (state is non-null)
-          .filter(state => state !== null)
+          .filter(state => !!state)
           // Complete this Observable after successful login
           .take(1)
           // onLogoutObervable takes over once user is logged in.
@@ -131,7 +144,7 @@ export class AppComponent {
                       // Keep this Observable alive for the duration of the app.
                       .do((state: FirebaseAuthState) => {
                         if (!state) {
-                          router.navigate([ './Login' ])
+                          router.navigate(['./Login'])
                         }
                       }))
           .subscribe();

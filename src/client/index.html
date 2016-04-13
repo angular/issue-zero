@@ -1,67 +1,75 @@
 <!doctype html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>Issue Zero</title>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta id="theme-color" name="theme-color" content="#999999">
-    <style>
-      html,body {
-        margin: 0;
-        height: 100%;
-        font-family: Roboto, 'Helvetica Neue', sans-serif;
+<head>
+  <meta charset="utf-8">
+  <title>IssueCli</title>
+  <base href="/">
+  {{content-for 'head'}}
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
 
-        /* Support for all WebKit browsers. */
-        -webkit-font-smoothing: antialiased;
+  <!-- Service worker support is disabled by default.
+       Install the worker script and uncomment to enable.
+       Only enable service workers in production.
+  <script type="text/javascript">
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/worker.js').catch(function(err) {
+        console.log('Error installing service worker: ', err);
+      });
+    }
+  </script>
+  -->
+  <style>
+    html,body {
+      margin: 0;
+      height: 100%;
+      font-family: Roboto, 'Helvetica Neue', sans-serif;
 
-        /* Support for Safari and Chrome. */
-        text-rendering: optimizeLegibility;
+      /* Support for all WebKit browsers. */
+      -webkit-font-smoothing: antialiased;
 
-        /* Support for Firefox. */
-        -moz-osx-font-smoothing: grayscale;
+      /* Support for Safari and Chrome. */
+      text-rendering: optimizeLegibility;
 
-        /* Support for IE. */
-        font-feature-settings: 'liga';
-      }
-      button[md-button] {
-        text-transform: uppercase;
-      }
+      /* Support for Firefox. */
+      -moz-osx-font-smoothing: grayscale;
 
-      @font-face {
-        font-family: 'Material Icons';
-        font-style: normal;
-        font-weight: 400;
-        src: url(/vendor/MaterialIcons-Regular.eot); /* For IE6-8 */
-        src: local('Material Icons'),
-            local('MaterialIcons-Regular'),
-            url(/vendor/MaterialIcons-Regular.woff2) format('woff2'),
-            url(/vendor/MaterialIcons-Regular.woff) format('woff'),
-            url(/vendor/MaterialIcons-Regular.ttf) format('truetype');
-      }
-      .material-icons {
-        font-family: 'Material Icons';
-        font-weight: normal;
-        font-style: normal;
-        font-size: 24px;  /* Preferred icon size */
-        display: inline-block;
-        width: 1em;
-        height: 1em;
-        line-height: 1;
-        text-transform: none;
-        letter-spacing: normal;
-        word-wrap: normal;
-        white-space: nowrap;
-        direction: ltr;
-      }
-    </style>
-    <base href="/">
-  </head>
-  <body>
-    <issue-zero-app></issue-zero-app>
-    <script>
-      window.performance.mark('app_shell_rendered');
-    </script>
-    <script src="app-concat.js" async></script>
-  </body>
+      /* Support for IE. */
+      font-feature-settings: 'liga';
+    }
+    button[md-button] {
+      text-transform: uppercase;
+    }
+
+    @font-face {
+      font-family: 'Material Icons';
+      font-style: normal;
+      font-weight: 400;
+      src: url(/vendor/material-design-icons/iconfont/MaterialIcons-Regular.eot); /* For IE6-8 */
+      src: local('Material Icons'),
+          local('MaterialIcons-Regular'),
+          url(/vendor/material-design-icons/iconfont/MaterialIcons-Regular.woff2) format('woff2'),
+          url(/vendor/material-design-icons/iconfont/MaterialIcons-Regular.woff) format('woff'),
+          url(/vendor/material-design-icons/iconfont/MaterialIcons-Regular.ttf) format('truetype');
+    }
+    .material-icons {
+      font-family: 'Material Icons';
+      font-weight: normal;
+      font-style: normal;
+      font-size: 24px;  /* Preferred icon size */
+      display: inline-block;
+      width: 1em;
+      height: 1em;
+      line-height: 1;
+      text-transform: none;
+      letter-spacing: normal;
+      word-wrap: normal;
+      white-space: nowrap;
+      direction: ltr;
+    }
+  </style>
+</head>
+<body>
+  <issue-cli-app>Loading...</issue-cli-app>
+  <script src="app-concat.js" async></script>
+</body>
 </html>

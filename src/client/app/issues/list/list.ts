@@ -1,5 +1,8 @@
 import {Component} from 'angular2/core';
+import {RouteConfig, RouterOutlet} from 'angular2/router';
 
-@Component({templateUrl : 'app/issues/list/list.html'})
-export class ListComponent {
+@Component({template: '<router-outlet></router-outlet>', providers: [], directives: [RouterOutlet]})
+@RouteConfig([])
+export class List {
+  constructor() {}
 }
