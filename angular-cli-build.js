@@ -7,7 +7,14 @@ var Angular2App = require('angular-cli/lib/broccoli/angular2-app');
 var mergeTrees = require('broccoli-merge-trees');
 var Funnel = require('broccoli-funnel');
 var concat = require('broccoli-concat');
-// Hack because material depends on global Event object, which Node doesn't have.
+/**
+ * TODO(jeffbcross): remove this hack when material alpha.3 lands
+ * Temporary hack because material depends on global Event object,
+ * which Node doesn't have.
+ * Reported issue: https://github.com/angular/material2/issues/306
+ * Fix: https://github.com/angular/material2/issues/307
+ * Tracking issue: https://github.com/angular/issue-zero/issues/32
+ */
 global.Event = function () {};
 const AppShellPlugin = require('./broccoli-app-shell.ts');
 
