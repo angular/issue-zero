@@ -31,7 +31,7 @@ bootstrap(IssueCliApp, [
 ]).then(() => {
   if (typeof preboot !== 'undefined') preboot.complete();
   if (typeof performance !== 'undefined' && performance.timing &&
-      performance.timing.navigationStart) {
+      performance.timing.navigationStart && performance.mark) {
     performance.mark('bootstrapped');
   }
 });
