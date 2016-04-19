@@ -49,6 +49,8 @@ module.exports = function(defaults) {
       'vendor/angular2/bundles/router.dev.js',
       'system.config.js'
     ],
+    header: ';(function() {',
+    footer: '}());',
     footerFiles: ['auto-start.js'],
     sourceMapConfig: { enabled: true },
     allowNone: false,
