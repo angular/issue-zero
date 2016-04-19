@@ -39,7 +39,7 @@ AppShellPlugin.prototype.build = function () {
       FIREBASE_PROVIDERS,
       defaultFirebase('https://issue-zero.firebaseio.com')
     ],
-    preboot: true
+    preboot: false
   }
 
     var bootloader = Bootloader.create(options);
