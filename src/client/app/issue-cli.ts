@@ -6,7 +6,8 @@ import {MD_CARD_DIRECTIVES} from '@angular2-material/card';
 import {MD_SIDENAV_DIRECTIVES} from '@angular2-material/sidenav';
 import {MdButton} from '@angular2-material/button';
 import {MdProgressCircle} from '@angular2-material/progress-circle';
-import {Observable} from 'rxjs';
+import {Observable} from 'rxjs/Observable';
+import {ArrayObservable} from 'rxjs/observable/ArrayObservable';
 import {Issues} from './issues/issues';
 import {Login} from './login/login';
 import {IS_PRERENDER, IS_POST_LOGIN} from './config';
@@ -119,7 +120,7 @@ export class IssueCliApp {
     if (!isPrerender) {
       // If the page was part of the Firebase OAuth flow (the successful login redirect),
       // then short-circuit the auth observable.
-      Observable.of(isPostLogin)
+      ArrayObservable.of(isPostLogin)
           .filter(v => v === true)
           .concat(af.auth)
           // Cast nulls to booleans

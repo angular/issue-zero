@@ -11,6 +11,8 @@ import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/take';
 import 'rxjs/add/operator/concat';
 import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/distinctUntilChanged';
 
 import {IssueCliApp} from './app/issue-cli';
 import {FB_URL, IS_PRERENDER, IS_POST_LOGIN} from './app/config';

@@ -2,7 +2,6 @@ System.config({
   map: {
     angularfire2: 'vendor/angularfire2',
     firebase: 'vendor/firebase/lib',
-    rxjs: 'vendor/rxjs',
     '@angular2-material': 'vendor/@angular2-material'
   },
   packages: {
@@ -19,11 +18,6 @@ System.config({
       defaultExtension: 'js',
       format: 'cjs',
       main: 'firebase-web.js'
-    },
-    rxjs: {
-      defaultExtension: 'js',
-      format: 'cjs',
-      main: 'Rx.js'
     },
     '@angular2-material/core': {
       format: 'cjs',
