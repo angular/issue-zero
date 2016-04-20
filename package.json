@@ -37,6 +37,7 @@
     "angular2-express-engine": "^0.10.0",
     "angular2-gulp-prerender": "^0.10.1",
     "angular2-hapi-engine": "^0.10.1",
+    "angular2-service-worker": "^0.1.1",
     "angular2-universal": "^0.90.2",
     "angular2-universal-polyfills": "^0.3.4",
     "broccoli-caching-writer": "^2.2.1",

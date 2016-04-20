@@ -9,6 +9,7 @@
     },
     "files": [
       "typings/main.d.ts",
-      "broccoli-app-shell.ts"
+      "broccoli-app-shell.ts",
+      "broccoli-service-worker.ts"
     ]
 }

@@ -17,18 +17,21 @@ var concat = require('broccoli-concat');
  */
 global.Event = function () {};
 const AppShellPlugin = require('./broccoli-app-shell.ts');
+const ServiceWorkerPlugin = require('./broccoli-service-worker.ts');
 
 module.exports = function(defaults) {
   var app = new Angular2App(defaults, {
     vendorNpmFiles: [
       'angularfire2/**/*.js',
-      'firebase/lib/*.js',
-      'rxjs/**/*.js',
-      '@angular2-material/**/*.+(js|css|svg)',
-      'material-design-icons/**/*.+(css|svg|woff|ttf|eot|woff2)'
+      'firebase/lib/firebase-web.js',
+      'rxjs/bundles/Rx.js',
+      '@angular2-material/**/*.+(js|css|svg|map)',
+      'material-design-icons/**/*.(woff2|woff)',
+      'angular2-service-worker/dist/worker.js'
     ]
   });
   const ngTree = app.toTree();
+  var swTree = new ServiceWorkerPlugin(ngTree);
   var appShellIndex = new AppShellPlugin(ngTree, 'index.html', 'app/issue-cli');
   var concatExtrasTree = new Funnel('src/client', {
     include: [
@@ -37,7 +40,7 @@ module.exports = function(defaults) {
     ]
   });
   var jsBundleTree = concat(mergeTrees([ngTree, concatExtrasTree]), {
-    inputFiles: [
+    headerFiles: [
       // TODO: use minified for production build
       'vendor/es6-shim/es6-shim.js',
       'vendor/systemjs/dist/system-polyfills.js',
@@ -46,9 +49,9 @@ module.exports = function(defaults) {
       'vendor/rxjs/bundles/Rx.js',
       'vendor/angular2/bundles/angular2.dev.js',
       'vendor/angular2/bundles/http.dev.js',
-      'vendor/angular2/bundles/router.dev.js',
-      'system.config.js'
+      'vendor/angular2/bundles/router.dev.js'
     ],
+    inputFiles: ['system.config.js'],
     header: ';(function() {',
     footer: '}());',
     footerFiles: ['auto-start.js'],
@@ -56,5 +59,5 @@ module.exports = function(defaults) {
     allowNone: false,
     outputFile: '/app-concat.js'
   });
-  return mergeTrees([ngTree, appShellIndex, jsBundleTree], { overwrite: true })
+  return mergeTrees([ngTree, appShellIndex, jsBundleTree, swTree], { overwrite: true })
 };
