@@ -4,10 +4,11 @@ import {List} from './list/list';
 
 @Component({
   providers: [],
-  template: `Issues route`
+  template: `<router-outlet></router-outlet>`,
+  directives: [RouterOutlet]
 })
 @RouteConfig([
-  {path: '/list/...', name: 'List', component: List, useAsDefault: true},
+  {path: '/list', name: 'List', component: List, useAsDefault: true},
 ])
 export class Issues {
   constructor() {}

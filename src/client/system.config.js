@@ -48,6 +48,11 @@ System.config({
       format: 'cjs',
       defaultExtension: 'js',
       main: 'progress-circle.js'
+    },
+    '@angular2-material/list': {
+      format: 'cjs',
+      defaultExtension: 'js',
+      main: 'list.js'
     }
   }
 });
