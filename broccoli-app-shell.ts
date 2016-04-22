@@ -3,9 +3,10 @@ import {prerender} from 'angular2-gulp-prerender';
 import {provide} from 'angular2/core';
 import {APP_BASE_HREF, ROUTER_PROVIDERS} from 'angular2/router';
 import {IssueCliApp} from './src/client/app/issue-cli';
-import {Bootloader, REQUEST_URL, NODE_LOCATION_PROVIDERS} from 'angular2-universal';
+import {Bootloader, REQUEST_URL, NODE_LOCATION_PROVIDERS, NODE_HTTP_PROVIDERS} from 'angular2-universal';
 import {IS_PRERENDER, IS_POST_LOGIN} from './src/client/app/config';
 import {FIREBASE_PROVIDERS, defaultFirebase} from 'angularfire2';
+import {LOCAL_STORAGE} from './src/client/app/config';
 
 const fse           = require('fs-extra');
 const path          = require('path');
@@ -37,6 +38,13 @@ AppShellPlugin.prototype.build = function () {
         useValue: true
       }),
       FIREBASE_PROVIDERS,
+      NODE_HTTP_PROVIDERS,
+      provide(LOCAL_STORAGE, {
+        useValue: {
+          getItem: () => null,
+          setItem: () => null
+        }
+      }),
       defaultFirebase('https://issue-zero.firebaseio.com')
     ],
     preboot: false
