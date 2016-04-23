@@ -57,7 +57,7 @@ export class List {
     this.repos
       .map((repos:Repo[]) => repos[0])
       .take(1)
-      .subscribe(repo => this.repoSelection.next(repo));
+      .subscribe(this.repoSelection);
 
     this.issues = this.repoSelection
       .filter(v => !!v)
