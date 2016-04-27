@@ -1,4 +1,4 @@
-import {AngularFire} from 'angularfire2';
+import {AngularFire, FirebaseAuthState} from 'angularfire2';
 import {Inject, Injectable} from 'angular2/core';
 import {Http} from 'angular2/http';
 import {Observable} from 'rxjs/Observable';
@@ -29,6 +29,27 @@ export class Github {
       .catch(() => this._af.auth
         .map((auth:any) => auth.github.accessToken)
         .mergeMap((tokenValue) => this._httpRequest(path, tokenValue, params)));
+  }
+
+  getRepo(repoFullName:string): Observable<Repo> {
+    // TODO(jeffbcross): check cache first
+    return this._af.auth
+      .map((auth:FirebaseAuthState) => `${GITHUB_API}/repos/${repoFullName}?access_token=${auth.github.accessToken}`)
+      .switchMap((url:string) => this._http.get(url).map((res) => res.json()));
+  }
+
+  searchIssues(query:string):Observable<Object[]> {
+    return this._af.auth
+      .map((auth:FirebaseAuthState) => `${GITHUB_API}/search/issues?q=${query}&access_token=${auth.github.accessToken}`)
+      .switchMap((url:string) => this._http.get(url)
+        .map(res => res.json().items));
+  }
+
+  fetchLabels(repo:string): Observable<any[]> {
+    return this._af.auth
+      .map((auth:FirebaseAuthState) => `${GITHUB_API}/repos/${repo}/labels?access_token=${auth.github.accessToken}`)
+      .switchMap((url:string) => this._http.get(url)
+        .map(res => res.json()));
   }
 
   _httpRequest (path:string, accessToken:string, params?:string) {
