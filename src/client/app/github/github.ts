@@ -61,9 +61,13 @@ export class Github {
     return this._http.get(url)
       // Set the http response to cache
       // TODO(jeffbcross): issues should be cached in more structured and queryable format
-      .do(res => this._setCache(path, res.text()))
       // Get the JSON object from the response
-      .map(res => res.json());
+      .map(res => res.json())
+      .flatMap(res => {
+        this._setCache(path, res.text());
+        return Observable.fromPromise(Promise.resolve(res));
+      });
+
   }
 
   /**
