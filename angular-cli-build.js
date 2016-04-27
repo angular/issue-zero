@@ -27,7 +27,8 @@ module.exports = function(defaults) {
       'rxjs/bundles/Rx.js',
       '@angular2-material/**/*.+(js|css|svg|map)',
       'material-design-icons/**/*.+(woff2|woff)',
-      'angular2-service-worker/dist/worker.js'
+      'angular2-service-worker/dist/worker.js',
+      'hammerjs/hammer.min.js'
     ]
   });
   const ngTree = app.toTree();
@@ -42,6 +43,7 @@ module.exports = function(defaults) {
   var jsBundleTree = concat(mergeTrees([ngTree, concatExtrasTree]), {
     headerFiles: [
       // TODO: use minified for production build
+      'vendor/hammerjs/hammer.min.js',
       'vendor/es6-shim/es6-shim.js',
       'vendor/systemjs/dist/system-polyfills.js',
       'vendor/angular2/bundles/angular2-polyfills.js',

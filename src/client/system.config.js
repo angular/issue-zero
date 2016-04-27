@@ -2,7 +2,8 @@ System.config({
   map: {
     angularfire2: 'vendor/angularfire2',
     firebase: 'vendor/firebase/lib',
-    '@angular2-material': 'vendor/@angular2-material'
+    '@angular2-material': 'vendor/@angular2-material',
+    'hammerjs': 'vendor/hammerjs/hammer.js'
   },
   packages: {
     app: {
