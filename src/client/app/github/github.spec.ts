@@ -19,6 +19,7 @@ import {HTTP_PROVIDERS, XHRBackend, Response, BaseResponseOptions} from 'angular
 import {MockBackend, MockConnection} from 'angular2/http/testing';
 import {LOCAL_STORAGE} from '../config';
 import {ScalarObservable} from 'rxjs/observable/ScalarObservable';
+import {MockLocalStorage} from '../testing/mocks';
 
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/do';
@@ -86,14 +87,3 @@ describe('Github Service', () => {
         expect(setItemSpy).toHaveBeenCalledWith('izCache/repo', '{"issues": ["1","2","3"]}');
       }));
 });
-
-class MockLocalStorage {
-  private _cache = {};
-  getItem (key:string): string {
-    return key in this._cache ? this._cache[key] : null;
-  }
-
-  setItem (key:string, value:string): void {
-    this._cache[key] = value;
-  }
-}
