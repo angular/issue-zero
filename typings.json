@@ -9,6 +9,7 @@
   "ambientDependencies": {
     "es6-shim": "github:DefinitelyTyped/DefinitelyTyped/es6-shim/es6-shim.d.ts#6697d6f7dadbf5773cb40ecda35a76027e0783b2",
     "firebase": "github:DefinitelyTyped/DefinitelyTyped/firebase/firebase.d.ts#73fa26213aa5d2e1de5d7c2cc74118108cb2e5fa",
+    "jasmine": "github:DefinitelyTyped/DefinitelyTyped/jasmine/jasmine.d.ts#5c182b9af717f73146399c2485f70f1e2ac0ff2b",
     "node": "github:DefinitelyTyped/DefinitelyTyped/node/node.d.ts#484e00f72f5572ffaea7cbbf8bcb02ae90ec9bd4",
     "systemjs": "github:DefinitelyTyped/DefinitelyTyped/systemjs/systemjs.d.ts#56295f5058cac7ae458540423c50ac2dcf9fc711"
   }

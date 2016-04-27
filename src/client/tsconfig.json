@@ -18,6 +18,8 @@
 
   "files": [
     "app.ts",
-    "typings.d.ts"
+    "typings.d.ts",
+    "app/github/github.spec.ts",
+    "app/filter-store.service.spec.ts"
   ]
 }
