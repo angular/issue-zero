@@ -26,7 +26,7 @@ module.exports = function(defaults) {
       'firebase/lib/firebase-web.js',
       'rxjs/bundles/Rx.js',
       '@angular2-material/**/*.+(js|css|svg|map)',
-      'material-design-icons/**/*.+(woff2|woff)',
+      'material-design-icons/iconfont/MaterialIcons-Regular.+(woff|woff2)',
       'angular2-service-worker/dist/worker.js',
       'hammerjs/hammer.min.js'
     ]
