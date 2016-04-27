@@ -1,7 +1,7 @@
-import {Component, ChangeDetectionStrategy} from 'angular2/core';
+import {Component, ChangeDetectionStrategy, OnInit} from 'angular2/core';
+import {Location, ROUTER_DIRECTIVES} from 'angular2/router';
 import {Observable} from 'rxjs/Observable';
-import {Subject} from 'rxjs/Subject';
-import {BehaviorSubject} from 'rxjs/subject/BehaviorSubject';
+import {ReplaySubject} from 'rxjs/subject/ReplaySubject';
 import {MD_LIST_DIRECTIVES} from '@angular2-material/list';
 
 import {IssueListToolbar} from './toolbar/toolbar';
@@ -10,6 +10,7 @@ import {RepoSelectorRow} from './repo-selector-row/repo-selector-row';
 
 import {GithubObjects, Repo, User} from '../../github/types';
 import {Github} from '../../github/github';
+import {FilterStore, Filter, FilterObject, generateQuery} from '../../filter-store.service';
 
 @Component({
   styles: [`
@@ -19,54 +20,45 @@ import {Github} from '../../github/github';
   `],
   template: `
     <issue-list-toolbar
-      (click)="toggleRepoSelector()"
-      [repoSelector]="repoSelectorActive"
       [repo]="repoSelection | async">
     </issue-list-toolbar>
 
-    <md-list *ngIf="!repoSelectorActive">
+    <md-list>
       <issue-row
         *ngFor="#issue of issues | async"
         [ngForTrackBy]="'url'"
         [issue]="issue">
       </issue-row>
     </md-list>
-
-    <md-list *ngIf="repoSelectorActive">
-      <repo-selector-row
-        [repo]="repo"
-        *ngFor="#repo of repos | async"
-        (click)="repoSelection.next(repo); toggleRepoSelector()">
-      </repo-selector-row>
-    </md-list>
   `,
-  providers: [Github],
-  directives: [MD_LIST_DIRECTIVES, IssueListToolbar, IssueRow, RepoSelectorRow],
+  providers: [Github, FilterStore],
+  directives: [MD_LIST_DIRECTIVES, IssueListToolbar, IssueRow, ROUTER_DIRECTIVES],
   pipes: [],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class List {
-  issues: Observable<any[]>;
-  repoSelectorActive:boolean = false;
+export class List implements OnInit {
+  issues: Observable<Object[]>;
   repos: Observable<Repo[]>;
-  repoSelection: Subject<Repo>;
-  constructor(gh:Github) {
-    this.repos = gh.fetch(`/user/repos`, 'affiliation=owner,collaborator&sort=updated');
+  repoSelection: Observable<Repo>;
+  constructor(
+    private gh: Github,
+    private filterStore: FilterStore,
+    private location: Location) {}
 
-    this.repoSelection = new BehaviorSubject(null);
-    this.repos
-      .map((repos:Repo[]) => repos[0])
-      .take(1)
-      .subscribe(this.repoSelection);
+  ngOnInit () {
+    // TODO(jeffbcross): see if there's a better way to get params from parent routes
+    var [path, org, repo] = /issues\/([a-zA-Z\+\-0-9]+)\/([a-zA-Z\+\-0-9]+)/.exec(this.location.path());
 
-    this.issues = this.repoSelection
-      .filter(v => !!v)
-      // Select the first repo, most-recently updated
-      .switchMap((repo:Repo) => gh.fetch(`/repos/${repo.full_name}/issues`));
-  }
+    /**
+     * Get full repo object based on route params.
+     */
+    this.repoSelection = this.gh.getRepo(`${org}/${repo}`);
 
-  toggleRepoSelector() {
-    this.repoSelectorActive = !this.repoSelectorActive;
+    this.issues = this.filterStore.getFilter(`${org}/${repo}`).changes
+      .map((filter:FilterObject) => generateQuery(filter))
+      .switchMap((query:string) => {
+        return this.gh.searchIssues(query)
+      });
   }
 
   getSmallAvatar(repo:Repo):string {

@@ -1,5 +1,5 @@
 import {Component, Inject} from 'angular2/core';
-import {RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS, Router} from 'angular2/router';
+import {RouteConfig, ROUTER_DIRECTIVES, ROUTER_PROVIDERS, Router, Location} from 'angular2/router';
 import {AngularFire, FirebaseAuthState} from 'angularfire2';
 import {MdToolbar} from '@angular2-material/toolbar';
 import {MD_CARD_DIRECTIVES} from '@angular2-material/card';
@@ -11,7 +11,9 @@ import {ArrayObservable} from 'rxjs/observable/ArrayObservable';
 import {Issues} from './issues/issues';
 import {Login} from './login/login';
 import {IS_PRERENDER, IS_POST_LOGIN} from './config';
-
+import {Github} from './github/github';
+import {Repo} from './github/types';
+import {RepoSelectorComponent} from './+repo-selector/index';
 
 @Component({
   selector: 'issue-cli-app',
@@ -104,15 +106,22 @@ md-toolbar md-progress-circle[mode="indeterminate"] /deep/ circle {
     ROUTER_DIRECTIVES, MdToolbar, MD_CARD_DIRECTIVES, MD_SIDENAV_DIRECTIVES, MdButton,
     MdProgressCircle
   ],
-  pipes: []
+  pipes: [],
+  providers: [Github]
 })
 @RouteConfig([
-  {path: '/issues/...', name: 'Issues', component: Issues},
+  {path: '/issues/:org/:repo/...', name: 'Issues', component: Issues},
   {path: '/login', name: 'Login', component: Login},
+  {path: '/repo-selector', name: 'RepoSelector', component: RepoSelectorComponent},
 ])
 export class IssueCliApp {
   constructor(
-      public af: AngularFire, router: Router, @Inject(IS_PRERENDER) public isPrerender: boolean, @Inject(IS_POST_LOGIN) isPostLogin:boolean) {
+      public af: AngularFire,
+      router: Router,
+      gh: Github,
+      @Inject(IS_PRERENDER) public isPrerender: boolean,
+      @Inject(IS_POST_LOGIN) isPostLogin:boolean,
+      location:Location) {
     /**
      * Check login state and redirect to appropriate
      * page: Login or Issues route.
@@ -127,10 +136,15 @@ export class IssueCliApp {
           .map(v => !!v)
           .distinctUntilChanged()
           .do((loggedIn: boolean) => {
-            console.log('navigating to ', loggedIn)
             // If state is null (user not logged in) navigate to log in
-            if (loggedIn) {
-              router.navigate(['./Issues']);
+            if (loggedIn && (!location.path() || location.path() === '/login')) {
+              gh.fetch(`/user/repos`, 'affiliation=owner,collaborator&sort=updated')
+                .map((repos:Repo[]) => ({
+                  org: repos[0].owner.login,
+                  repo: repos[0].name
+                }))
+                .take(1)
+                .subscribe(config => router.navigate(['./Issues', config]));
             } else if (!isPostLogin) {
               router.navigate(['./Login']);
             }
