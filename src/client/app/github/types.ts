@@ -1,4 +1,5 @@
 export type Repo = {
+  name: string;
   full_name: string;
   owner: User;
 }
