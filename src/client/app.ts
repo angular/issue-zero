@@ -4,6 +4,7 @@ import {HTTP_PROVIDERS} from 'angular2/http';
 import {bootstrap} from 'angular2/platform/browser';
 import {ROUTER_PROVIDERS, APP_BASE_HREF} from 'angular2/router';
 import {FIREBASE_PROVIDERS, defaultFirebase, AuthMethods, AuthProviders, firebaseAuthConfig} from 'angularfire2';
+import {provideStore} from '@ngrx/store';
 
 // Import auto-patching RxJS operators
 import 'rxjs/add/operator/do';
@@ -20,6 +21,9 @@ import 'rxjs/add/operator/mergeMap';
 import {IssueCliApp} from './app/issue-cli';
 import {FB_URL, IS_PRERENDER, IS_POST_LOGIN, LOCAL_STORAGE} from './app/config';
 
+import {Issue} from './app/github/types';
+import {repos, issues, labels, users, filters} from './app/store/store';
+
 // Checks if this is the OAuth redirect callback from Firebase
 // Has to be global so can be used in CanActivate
 (<any>window).__IS_POST_LOGIN = /\&__firebase_request_key/.test(window.location.hash);
@@ -30,6 +34,7 @@ bootstrap(IssueCliApp, [
   provide(IS_POST_LOGIN, {
     useValue: (<any>window).__IS_POST_LOGIN
   }),
+  provideStore({repos:repos, issues:issues, labels:labels, users:users, filters:filters}),
   provide(LOCAL_STORAGE, {
     useValue: (<any>window.localStorage)
   }),

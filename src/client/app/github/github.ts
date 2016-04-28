@@ -5,7 +5,7 @@ import {Observable} from 'rxjs/Observable';
 import {ScalarObservable} from 'rxjs/observable/ScalarObservable';
 import {ErrorObservable} from 'rxjs/observable/ErrorObservable';
 
-import {User, Repo} from './types';
+import {User, Issue, Repo} from './types';
 import {LOCAL_STORAGE} from '../config';
 
 const GITHUB_API = 'https://api.github.com';
@@ -40,12 +40,27 @@ export class Github {
       .switchMap((url:string) => this._http.get(url).map((res) => res.json()));
   }
 
-  searchIssues(query:string):Observable<Object[]> {
+  getIssues(query:string):Observable<Issue[]> {
     return this._af.auth
       .filter(auth => auth !== null && auth.github)
       .map((auth:FirebaseAuthState) => `${GITHUB_API}/search/issues?q=${query}&access_token=${auth.github.accessToken}`)
-      .switchMap((url:string) => this._http.get(url)
-        .map(res => res.json().items));
+      .switchMap((url:string) => this._http.get(url).map(res => res.json().items))
+        .map((issues:Issue[]) => issues
+          .map((issue:Issue) => {
+            var [url, org, repo, num] = /\/([a-z0-9\-]*)\/([a-z0-9\-]*)\/issues\/([0-9]*)$/i.exec(issue.url);
+            return Object.assign({}, issue, {org, repo});
+          }))
+  }
+
+  closeIssue(issue:Issue): Observable<any> {
+    var [url, org, repo, number] = /\/([a-z0-9\-]*)\/([a-z0-9\-]*)\/issues\/([0-9]*)$/.exec(issue.url);
+    return this._af.auth
+      .filter(auth => auth !== null && auth.github)
+      .map((auth:FirebaseAuthState) => `${GITHUB_API}/repos/${org}/${repo}/issues/${number}?access_token=${auth.github.accessToken}`)
+      .switchMap((url:string) => this._http.patch(url, JSON.stringify({
+        state: 'closed'
+      }))
+        .map(res => res.json()));
   }
 
   fetchLabels(repo:string): Observable<any[]> {

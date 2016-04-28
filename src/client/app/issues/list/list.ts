@@ -1,8 +1,10 @@
-import {Component, ChangeDetectionStrategy, OnInit} from 'angular2/core';
+import {Component, ChangeDetectionStrategy, OnInit, Pipe, PipeTransform} from 'angular2/core';
 import {Location, ROUTER_DIRECTIVES} from 'angular2/router';
 import {Observable} from 'rxjs/Observable';
-import {ReplaySubject} from 'rxjs/subject/ReplaySubject';
+import {BehaviorSubject} from 'rxjs/subject/BehaviorSubject';
+import {Subscription} from 'rxjs/Subscription';
 import {MD_LIST_DIRECTIVES} from '@angular2-material/list';
+import {Store} from '@ngrx/store';
 
 import {IssueListToolbar} from './toolbar/toolbar';
 import {IssueRow} from './issue-row/issue-row';
@@ -10,7 +12,20 @@ import {RepoSelectorRow} from './repo-selector-row/repo-selector-row';
 
 import {GithubObjects, Repo, User} from '../../github/types';
 import {Github} from '../../github/github';
-import {FilterStore, Filter, FilterObject, generateQuery} from '../../filter-store.service';
+import {Issue} from '../../github/types';
+import {FilterStore, Filter, FilterObject, FilterMap, generateQuery} from '../../filter-store.service';
+
+import {AppState} from '../../store/store';
+
+@Pipe({
+  name: 'notRemoved'
+})
+export class NotPendingRemoval implements PipeTransform {
+  transform (issues:Issue[]): Issue[] {
+    if (!issues) return issues;
+    return issues.filter((issue:Issue) => !issue.isPendingRemoval)
+  }
+}
 
 @Component({
   styles: [`
@@ -25,25 +40,28 @@ import {FilterStore, Filter, FilterObject, generateQuery} from '../../filter-sto
 
     <md-list>
       <issue-row
-        *ngFor="#issue of issues | async"
+        *ngFor="#issue of issues | async | notRemoved"
         [ngForTrackBy]="'url'"
-        [issue]="issue">
+        [issue]="issue"
+        (close)="closeIssue(issue)">
       </issue-row>
     </md-list>
   `,
   providers: [Github, FilterStore],
   directives: [MD_LIST_DIRECTIVES, IssueListToolbar, IssueRow, ROUTER_DIRECTIVES],
-  pipes: [],
+  pipes: [NotPendingRemoval],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class List implements OnInit {
-  issues: Observable<Object[]>;
+  issues: Observable<Issue[]>;
   repos: Observable<Repo[]>;
   repoSelection: Observable<Repo>;
+  addIssueSubscription:Subscription;
   constructor(
     private gh: Github,
     private filterStore: FilterStore,
-    private location: Location) {}
+    private location: Location,
+    private store:Store<AppState>) {}
 
   ngOnInit () {
     // TODO(jeffbcross): see if there's a better way to get params from parent routes
@@ -52,16 +70,72 @@ export class List implements OnInit {
     /**
      * Get full repo object based on route params.
      */
-    this.repoSelection = this.gh.getRepo(`${org}/${repo}`);
+    this.repoSelection = this.store.select('repos')
+      .filter((r:Repo) => !!r)
+      .map((repos:Repo[]) => repos
+        .filter((repository:Repo) => {
+          return repository.name === repo && repository.owner.login === org;
+        })[0]);
 
-    this.issues = this.filterStore.getFilter(`${org}/${repo}`).changes
-      .map((filter:FilterObject) => generateQuery(filter))
-      .switchMap((query:string) => {
-        return this.gh.searchIssues(query)
+    this.gh.getRepo(`${org}/${repo}`).subscribe((repo:Repo) => {
+      this.store.dispatch({
+        type: 'AddRepo',
+        payload: repo
       });
+    })
+
+    /**
+     * Fetch the issues for this repo.
+     */
+    this.addIssueSubscription = this.store
+      .select('filters')
+      .map((filters:FilterMap) => filters && filters[`${org}/${repo}`])
+      .filter((filter: Filter) => !!filter)
+      .flatMap((filter: Filter) => filter.changes)
+      .map((filter:FilterObject) => generateQuery(filter))
+      .switchMap((query:string) => this.gh.getIssues(query))
+      .subscribe((issues: Issue[]) => {
+        this.store.dispatch({
+          type: 'AddIssues',
+          payload: issues
+        })
+      });
+
+    this.store.dispatch({
+      type: 'SetFilter',
+      payload: this.filterStore.getFilter(`${org}/${repo}`)
+    });
+
+    this.issues = this.store.select('issues')
+      .filter((i:Issue[]) => !!i)
+      .map((issues:Issue[]) => issues
+        .filter((issue:Issue) => {
+          return issue.org === org && issue.repo === repo
+        })
+      );
   }
 
   getSmallAvatar(repo:Repo):string {
     return repo ? `${repo.owner.avatar_url}&s=40` : '';
+  }
+
+  ngOnDestroy() {
+    if (this.addIssueSubscription) this.addIssueSubscription.unsubscribe();
+  }
+
+  closeIssue(issue: Issue): void {
+    // Set the issue as pending removal
+    this.store.dispatch({
+      type: 'PendingRemoveIssue',
+      payload: issue
+    });
+    this.gh.closeIssue(issue)
+      .take(1)
+      .subscribe(() => {
+        this.store.dispatch({
+          type: 'RemoveIssue',
+          payload: issue
+        });
+      });
   }
 }

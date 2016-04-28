@@ -7,6 +7,10 @@ import {LOCAL_STORAGE} from './config';
 
 export const LOCAL_STORAGE_KEY = 'FilterStore.filters';
 
+export interface FilterMap {
+  [key:string]: Filter;
+}
+
 @Injectable()
 export class FilterStore {
   private _filters = new Map<string, Filter>();
@@ -38,8 +42,13 @@ export function retrieveFromCache(repo:string, storage:any): Filter {
 }
 
 export class Filter {
+  org: string;
+  repo: string;
   changes: BehaviorSubject<FilterObject>;
   constructor(private localStorage:any, repo?:string, criteria: Criteria[] = [UnlabeledCriteria]) {
+    var split = repo.split('/');
+    this.org = split[0];
+    this.repo = split[1];
     this.changes = new BehaviorSubject({
       repo,
       criteria
