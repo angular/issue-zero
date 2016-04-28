@@ -3,9 +3,20 @@ System.config({
     angularfire2: 'vendor/angularfire2',
     firebase: 'vendor/firebase/lib',
     '@angular2-material': 'vendor/@angular2-material',
-    'hammerjs': 'vendor/hammerjs/hammer.js'
+    'hammerjs': 'vendor/hammerjs/hammer.js',
+    '@ngrx': 'vendor/@ngrx'
   },
   packages: {
+    '@ngrx/db': {
+      format: 'cjs',
+      main: 'index.js',
+      defaultExtension: 'js'
+    },
+    '@ngrx/store': {
+      format: 'cjs',
+      main: 'dist/index.js',
+      defaultExtension: 'js'
+    },
     app: {
       format: 'register',
       defaultExtension: 'js'
