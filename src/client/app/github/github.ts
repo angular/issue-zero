@@ -5,7 +5,7 @@ import {Observable} from 'rxjs/Observable';
 import {ScalarObservable} from 'rxjs/observable/ScalarObservable';
 import {ErrorObservable} from 'rxjs/observable/ErrorObservable';
 
-import {User, Issue, Repo} from './types';
+import {User, Issue, Repo, Label} from './types';
 import {LOCAL_STORAGE} from '../config';
 
 const GITHUB_API = 'https://api.github.com';
@@ -63,7 +63,7 @@ export class Github {
         .map(res => res.json()));
   }
 
-  fetchLabels(repo:string): Observable<any[]> {
+  fetchLabels(repo:string): Observable<Label[]> {
     return this._af.auth
       .filter(auth => auth !== null && auth.github)
       .map((auth:FirebaseAuthState) => `${GITHUB_API}/repos/${repo}/labels?access_token=${auth.github.accessToken}`)
