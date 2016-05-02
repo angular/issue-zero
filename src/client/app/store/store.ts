@@ -8,17 +8,7 @@ import {FilterMap} from '../filter-store.service';
 export function issues (state: Issue[] = [], action:Action): Issue[] {
   switch (action.type) {
     case 'AddIssues':
-      /**
-       * Make sure no duplicate issues, newest issues win.
-       **/
-      var existingKeys = action.payload.reduce((prev, curr) => {
-        prev[curr.id] = true;
-        return prev;
-      }, {});
-      state = action.payload.concat(state.filter((issue:Issue) => {
-        // Only return issues that aren't in the new payload.
-        return !existingKeys[issue.id];
-      }));
+      state = addIssues(action, state);
       break;
     case 'RemoveIssue':
       state = state.filter((issue:Issue) => {
@@ -43,6 +33,21 @@ export function issues (state: Issue[] = [], action:Action): Issue[] {
 // Creates keys of org:repo:number to quickly filter against.
 function getIssueUnique(issue:Issue): string {
   return `${issue.org}:${issue.repo}:${issue.number}`;
+}
+
+function addIssues(action:Action, state:Issue[]) {
+  /**
+   * Make sure no duplicate issues, newest issues win.
+   **/
+  var existingKeys = action.payload.reduce((prev, curr) => {
+    prev[curr.id] = true;
+    return prev;
+  }, {});
+  state = action.payload.concat(state.filter((issue:Issue) => {
+    // Only return issues that aren't in the new payload.
+    return !existingKeys[issue.id];
+  }));
+  return state;
 }
 
 export function repos(state: Repo[] = [], action:Action): Repo[] {
