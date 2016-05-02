@@ -4,32 +4,42 @@
   "dependencies": {
     "@angular2-material/button": {
       "version": "2.0.0-alpha.3",
-      "from": "@angular2-material/button@>=2.0.0-alpha.2 <3.0.0",
+      "from": "@angular2-material/button@2.0.0-alpha.3",
       "resolved": "https://registry.npmjs.org/@angular2-material/button/-/button-2.0.0-alpha.3.tgz"
     },
     "@angular2-material/card": {
       "version": "2.0.0-alpha.3",
-      "from": "@angular2-material/card@>=2.0.0-alpha.2 <3.0.0",
+      "from": "@angular2-material/card@2.0.0-alpha.3",
       "resolved": "https://registry.npmjs.org/@angular2-material/card/-/card-2.0.0-alpha.3.tgz"
+    },
+    "@angular2-material/checkbox": {
+      "version": "2.0.0-alpha.3",
+      "from": "@angular2-material/checkbox@latest",
+      "resolved": "https://registry.npmjs.org/@angular2-material/checkbox/-/checkbox-2.0.0-alpha.3.tgz"
     },
     "@angular2-material/core": {
       "version": "2.0.0-alpha.3",
-      "from": "@angular2-material/core@>=2.0.0-alpha.2 <3.0.0",
+      "from": "@angular2-material/core@2.0.0-alpha.3",
       "resolved": "https://registry.npmjs.org/@angular2-material/core/-/core-2.0.0-alpha.3.tgz"
+    },
+    "@angular2-material/input": {
+      "version": "2.0.0-alpha.3",
+      "from": "@angular2-material/input@latest",
+      "resolved": "https://registry.npmjs.org/@angular2-material/input/-/input-2.0.0-alpha.3.tgz"
     },
     "@angular2-material/list": {
       "version": "2.0.0-alpha.3",
-      "from": "@angular2-material/list@>=2.0.0-alpha.2 <3.0.0",
+      "from": "@angular2-material/list@2.0.0-alpha.3",
       "resolved": "https://registry.npmjs.org/@angular2-material/list/-/list-2.0.0-alpha.3.tgz"
     },
     "@angular2-material/progress-circle": {
       "version": "2.0.0-alpha.3",
-      "from": "@angular2-material/progress-circle@>=2.0.0-alpha.2 <3.0.0",
+      "from": "@angular2-material/progress-circle@2.0.0-alpha.3",
       "resolved": "https://registry.npmjs.org/@angular2-material/progress-circle/-/progress-circle-2.0.0-alpha.3.tgz"
     },
     "@angular2-material/sidenav": {
       "version": "2.0.0-alpha.3",
-      "from": "@angular2-material/sidenav@>=2.0.0-alpha.2 <3.0.0",
+      "from": "@angular2-material/sidenav@2.0.0-alpha.3",
       "resolved": "https://registry.npmjs.org/@angular2-material/sidenav/-/sidenav-2.0.0-alpha.3.tgz"
     },
     "@angular2-material/toolbar": {
@@ -39,7 +49,7 @@
     },
     "@ngrx/db": {
       "version": "1.0.1",
-      "from": "@ngrx/db@latest",
+      "from": "@ngrx/db@>=1.0.1 <2.0.0",
       "resolved": "https://registry.npmjs.org/@ngrx/db/-/db-1.0.1.tgz"
     },
     "@ngrx/store": {
@@ -224,8 +234,8 @@
     },
     "angularfire2": {
       "version": "2.0.0-alpha.16",
-      "from": "angularfire2@>=2.0.0-alpha.16 <3.0.0",
-      "resolved": "https://registry.npmjs.org/angularfire2/-/angularfire2-2.0.0-alpha.16.tgz"
+      "from": "angularfire2@>=2.0.0-alpha.14 <3.0.0",
+      "resolved": "file:dist"
     },
     "ansi": {
       "version": "0.3.1",
@@ -462,9 +472,9 @@
           "resolved": "https://registry.npmjs.org/minimatch/-/minimatch-2.0.10.tgz"
         },
         "source-map": {
-          "version": "0.5.4",
+          "version": "0.5.3",
           "from": "source-map@>=0.5.0 <0.6.0",
-          "resolved": "https://registry.npmjs.org/source-map/-/source-map-0.5.4.tgz"
+          "resolved": "https://registry.npmjs.org/source-map/-/source-map-0.5.3.tgz"
         }
       }
     },
@@ -1247,9 +1257,9 @@
           "resolved": "https://registry.npmjs.org/convert-source-map/-/convert-source-map-1.1.3.tgz"
         },
         "source-map": {
-          "version": "0.5.4",
+          "version": "0.5.3",
           "from": "source-map@>=0.5.3 <0.6.0",
-          "resolved": "https://registry.npmjs.org/source-map/-/source-map-0.5.4.tgz"
+          "resolved": "https://registry.npmjs.org/source-map/-/source-map-0.5.3.tgz"
         }
       }
     },
@@ -1314,9 +1324,9 @@
       "resolved": "https://registry.npmjs.org/concat-with-sourcemaps/-/concat-with-sourcemaps-1.0.4.tgz",
       "dependencies": {
         "source-map": {
-          "version": "0.5.4",
+          "version": "0.5.3",
           "from": "source-map@>=0.5.1 <0.6.0",
-          "resolved": "https://registry.npmjs.org/source-map/-/source-map-0.5.4.tgz"
+          "resolved": "https://registry.npmjs.org/source-map/-/source-map-0.5.3.tgz"
         }
       }
     },
@@ -1821,9 +1831,9 @@
           "resolved": "https://registry.npmjs.org/recast/-/recast-0.11.5.tgz"
         },
         "source-map": {
-          "version": "0.5.4",
+          "version": "0.5.3",
           "from": "source-map@>=0.5.0 <0.6.0",
-          "resolved": "https://registry.npmjs.org/source-map/-/source-map-0.5.4.tgz"
+          "resolved": "https://registry.npmjs.org/source-map/-/source-map-0.5.3.tgz"
         }
       }
     },
@@ -1985,7 +1995,7 @@
     },
     "event-emitter": {
       "version": "0.3.4",
-      "from": "event-emitter@>=0.3.4 <0.4.0",
+      "from": "event-emitter@>=0.3.3 <0.4.0",
       "resolved": "https://registry.npmjs.org/event-emitter/-/event-emitter-0.3.4.tgz"
     },
     "event-stream": {
@@ -3429,9 +3439,9 @@
           "resolved": "https://registry.npmjs.org/ordered-read-streams/-/ordered-read-streams-0.3.0.tgz"
         },
         "source-map": {
-          "version": "0.5.4",
+          "version": "0.5.3",
           "from": "source-map@>=0.5.3 <0.6.0",
-          "resolved": "https://registry.npmjs.org/source-map/-/source-map-0.5.4.tgz"
+          "resolved": "https://registry.npmjs.org/source-map/-/source-map-0.5.3.tgz"
         },
         "typescript": {
           "version": "1.8.9",
@@ -3489,7 +3499,7 @@
     },
     "hammerjs": {
       "version": "2.0.8",
-      "from": "hammerjs@>=2.0.8 <3.0.0",
+      "from": "hammerjs@latest",
       "resolved": "https://registry.npmjs.org/hammerjs/-/hammerjs-2.0.8.tgz"
     },
     "handlebars": {
@@ -3689,9 +3699,9 @@
       "resolved": "https://registry.npmjs.org/inline-source-map/-/inline-source-map-0.6.2.tgz",
       "dependencies": {
         "source-map": {
-          "version": "0.5.4",
+          "version": "0.5.3",
           "from": "source-map@>=0.5.3 <0.6.0",
-          "resolved": "https://registry.npmjs.org/source-map/-/source-map-0.5.4.tgz"
+          "resolved": "https://registry.npmjs.org/source-map/-/source-map-0.5.3.tgz"
         }
       }
     },
@@ -4186,9 +4196,9 @@
           "resolved": "https://registry.npmjs.org/lodash/-/lodash-3.10.1.tgz"
         },
         "source-map": {
-          "version": "0.5.4",
+          "version": "0.5.3",
           "from": "source-map@>=0.5.3 <0.6.0",
-          "resolved": "https://registry.npmjs.org/source-map/-/source-map-0.5.4.tgz"
+          "resolved": "https://registry.npmjs.org/source-map/-/source-map-0.5.3.tgz"
         }
       }
     },
@@ -6821,9 +6831,9 @@
       "resolved": "https://registry.npmjs.org/recast/-/recast-0.10.33.tgz",
       "dependencies": {
         "source-map": {
-          "version": "0.5.4",
+          "version": "0.5.3",
           "from": "source-map@>=0.5.0 <0.6.0",
-          "resolved": "https://registry.npmjs.org/source-map/-/source-map-0.5.4.tgz"
+          "resolved": "https://registry.npmjs.org/source-map/-/source-map-0.5.3.tgz"
         }
       }
     },
@@ -7605,9 +7615,9 @@
           "resolved": "https://registry.npmjs.org/glob/-/glob-6.0.4.tgz"
         },
         "source-map": {
-          "version": "0.5.4",
+          "version": "0.5.3",
           "from": "source-map@>=0.5.3 <0.6.0",
-          "resolved": "https://registry.npmjs.org/source-map/-/source-map-0.5.4.tgz"
+          "resolved": "https://registry.npmjs.org/source-map/-/source-map-0.5.3.tgz"
         },
         "systemjs": {
           "version": "0.19.9",
@@ -8105,9 +8115,9 @@
           "resolved": "https://registry.npmjs.org/async/-/async-0.2.10.tgz"
         },
         "source-map": {
-          "version": "0.5.4",
+          "version": "0.5.3",
           "from": "source-map@>=0.5.1 <0.6.0",
-          "resolved": "https://registry.npmjs.org/source-map/-/source-map-0.5.4.tgz"
+          "resolved": "https://registry.npmjs.org/source-map/-/source-map-0.5.3.tgz"
         }
       }
     },
@@ -8393,9 +8403,9 @@
       "resolved": "https://registry.npmjs.org/vinyl-sourcemaps-apply/-/vinyl-sourcemaps-apply-0.2.1.tgz",
       "dependencies": {
         "source-map": {
-          "version": "0.5.4",
+          "version": "0.5.3",
           "from": "source-map@>=0.5.1 <0.6.0",
-          "resolved": "https://registry.npmjs.org/source-map/-/source-map-0.5.4.tgz"
+          "resolved": "https://registry.npmjs.org/source-map/-/source-map-0.5.3.tgz"
         }
       }
     },
@@ -8595,7 +8605,7 @@
     },
     "zone.js": {
       "version": "0.6.12",
-      "from": "zone.js@>=0.6.4 <0.7.0",
+      "from": "zone.js@0.6.12",
       "resolved": "https://registry.npmjs.org/zone.js/-/zone.js-0.6.12.tgz"
     }
   }
