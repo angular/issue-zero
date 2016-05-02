@@ -4,12 +4,14 @@
     "**/.git/objects/**": true,
     "**/node_modules/**": true,
     "tmp/": true,
-    "dist/": true
+    "dist/": true,
+    "typings/": true
   },
   "search.exclude": {
     "**/.git": true,
     "**/.DS_Store": true,
     "tmp/": true,
-    "node_modules": true
+    "node_modules": true,
+    "typings/": true
   }
 }
