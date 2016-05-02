@@ -1,5 +1,5 @@
 import {Component} from 'angular2/core';
-import {Location, ROUTER_DIRECTIVES} from 'angular2/router';
+import {ROUTER_DIRECTIVES} from 'angular2/router';
 import {MdToolbar} from '@angular2-material/toolbar';
 import {MD_CARD_DIRECTIVES} from '@angular2-material/card';
 import {Observable} from 'rxjs/Observable';
@@ -12,6 +12,7 @@ import {
   Criteria
 } from '../../filter-store.service';
 import {Github} from '../../github/github';
+import {RepoParams} from '../../repo-params/repo-params';
 
 @Component({
   template: `
@@ -63,7 +64,7 @@ import {Github} from '../../github/github';
     }
   `],
   directives: [MdToolbar, MD_CARD_DIRECTIVES, ROUTER_DIRECTIVES],
-  providers: [FilterStore, Github]
+  providers: [FilterStore, Github, RepoParams]
 })
 export class Filter {
   filter: ServiceFilter;
@@ -72,9 +73,11 @@ export class Filter {
   repo:string;
   repoFull:string;
   availableCriteria:any[] = [LabelCriteria, UnlabeledCriteria];
-  constructor(public location:Location, public filterStore:FilterStore, public gh:Github) {
-    // TODO(jeffbcross): see if there's a better way to get params from parent routes
-    var [path, org, repo] = /issues\/([a-zA-Z\+\-0-9]+)\/([a-zA-Z\+\-0-9]+)/.exec(location.path());
+  constructor(
+    public filterStore:FilterStore,
+    public gh:Github,
+    private repoParams:RepoParams) {
+    var {org, repo} = repoParams.getRepo();
     this.org = org
     this.repo = repo
     this.repoFull = `${this.org}/${this.repo}`;

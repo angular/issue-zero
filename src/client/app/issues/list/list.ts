@@ -14,8 +14,10 @@ import {GithubObjects, Repo, User} from '../../github/types';
 import {Github} from '../../github/github';
 import {Issue} from '../../github/types';
 import {FilterStore, Filter, FilterObject, FilterMap, generateQuery} from '../../filter-store.service';
+import {RepoParams} from '../../repo-params/repo-params';
 
 import {AppState} from '../../store/store';
+
 
 @Pipe({
   name: 'notRemoved'
@@ -47,7 +49,7 @@ export class NotPendingRemoval implements PipeTransform {
       </issue-row>
     </md-list>
   `,
-  providers: [Github, FilterStore],
+  providers: [Github, FilterStore, RepoParams],
   directives: [MD_LIST_DIRECTIVES, IssueListToolbar, IssueRow, ROUTER_DIRECTIVES],
   pipes: [NotPendingRemoval],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -61,11 +63,11 @@ export class List implements OnInit {
     private gh: Github,
     private filterStore: FilterStore,
     private location: Location,
-    private store:Store<AppState>) {}
+    private store:Store<AppState>,
+    private repoParams:RepoParams) {}
 
   ngOnInit () {
-    // TODO(jeffbcross): see if there's a better way to get params from parent routes
-    var [path, org, repo] = /issues\/([a-zA-Z\+\-0-9]+)\/([a-zA-Z\+\-0-9]+)/.exec(this.location.path());
+    var {repo, org} = this.repoParams.getRepo();
 
     /**
      * Get full repo object based on route params.
