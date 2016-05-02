@@ -52,6 +52,16 @@ export class Github {
           }))
   }
 
+  getIssue(org:string, repo:string, number:number | string): Observable<Issue> {
+    return this._af.auth
+      .filter(auth => auth !== null && auth.github)
+      .map((auth:FirebaseAuthState) => `${GITHUB_API}/repos/${org}/${repo}/issues/${number}?access_token=${auth.github.accessToken}`)
+      .switchMap((url:string) => this._http.get(url).map(res => res.json()))
+        .map((issue:Issue) => {
+          return Object.assign({}, issue, {org, repo});
+        });
+  }
+
   closeIssue(issue:Issue): Observable<any> {
     var [url, org, repo, number] = /\/([a-z0-9\-]*)\/([a-z0-9\-]*)\/issues\/([0-9]*)$/.exec(issue.url);
     return this._af.auth
@@ -63,10 +73,27 @@ export class Github {
         .map(res => res.json()));
   }
 
+  addComment(org: string, repo: string, number: number, comment: string): Observable<Issue> {
+    return this._af.auth
+      .filter(auth => auth !== null && auth.github)
+      .map((auth:FirebaseAuthState) => `${GITHUB_API}/repos/${org}/${repo}/issues/${number}/comments?access_token=${auth.github.accessToken}`)
+      .switchMap((url:string) => this._http.post(url, JSON.stringify({
+        body: comment}))
+        .map(res => res.json()));
+  }
+
+  patchIssue (org: string, repo: string, number: number, patch:Object) {
+    return this._af.auth
+      .filter(auth => auth !== null && auth.github)
+      .map((auth:FirebaseAuthState) => `${GITHUB_API}/repos/${org}/${repo}/issues/${number}?access_token=${auth.github.accessToken}`)
+      .switchMap((url:string) => this._http.patch(url, JSON.stringify(patch))
+        .map(res => res.json()));
+  }
+
   fetchLabels(repo:string): Observable<Label[]> {
     return this._af.auth
       .filter(auth => auth !== null && auth.github)
-      .map((auth:FirebaseAuthState) => `${GITHUB_API}/repos/${repo}/labels?access_token=${auth.github.accessToken}`)
+      .map((auth:FirebaseAuthState) => `${GITHUB_API}/repos/${repo}/labels?per_page=100&access_token=${auth.github.accessToken}`)
       .switchMap((url:string) => this._http.get(url)
         .map(res => res.json()));
   }

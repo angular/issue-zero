@@ -1,5 +1,5 @@
 import {Component, ChangeDetectionStrategy, OnInit, Pipe, PipeTransform} from 'angular2/core';
-import {Location, ROUTER_DIRECTIVES} from 'angular2/router';
+import {ROUTER_DIRECTIVES, Router} from 'angular2/router';
 import {Observable} from 'rxjs/Observable';
 import {BehaviorSubject} from 'rxjs/subject/BehaviorSubject';
 import {Subscription} from 'rxjs/Subscription';
@@ -45,7 +45,9 @@ export class NotPendingRemoval implements PipeTransform {
         *ngFor="#issue of issues | async | notRemoved"
         [ngForTrackBy]="'url'"
         [issue]="issue"
-        (close)="closeIssue(issue)">
+        (close)="closeIssue(issue)"
+        (triage)="triageIssue(issue)"
+        [routerLink]="['../Triage', {number: issue.number}]">
       </issue-row>
     </md-list>
   `,
@@ -62,9 +64,9 @@ export class List implements OnInit {
   constructor(
     private gh: Github,
     private filterStore: FilterStore,
-    private location: Location,
     private store:Store<AppState>,
-    private repoParams:RepoParams) {}
+    private repoParams:RepoParams,
+    private router:Router) {}
 
   ngOnInit () {
     var {repo, org} = this.repoParams.getRepo();
@@ -139,5 +141,9 @@ export class List implements OnInit {
           payload: issue
         });
       });
+  }
+
+  triageIssue(issue: Issue) {
+    this.router.navigate(['../Triage', {number: issue.number}])
   }
 }

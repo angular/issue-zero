@@ -2,6 +2,7 @@ import {Component} from 'angular2/core';
 import {RouteConfig, RouterOutlet, ROUTER_DIRECTIVES} from 'angular2/router';
 import {List} from './list/list';
 import {Filter} from './filter/filter';
+import {Triage} from './triage/triage';
 
 @Component({
   providers: [],
@@ -11,6 +12,7 @@ import {Filter} from './filter/filter';
 @RouteConfig([
   {path: '/list', name: 'List', component: List, useAsDefault: true},
   {path: '/filter', name: 'Filter', component: Filter},
+  {path: '/triage/:number', name: 'Triage', component: Triage},
 ])
 export class Issues {
   constructor() {}

@@ -22,6 +22,7 @@ export type Issue = {
   body: string;
   title: string;
   number: number;
+  labels: Label[]
   // Additional properties
   org: string;
   repo: string;

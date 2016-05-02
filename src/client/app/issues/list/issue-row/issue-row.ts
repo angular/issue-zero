@@ -80,6 +80,7 @@ declare var Hammer;
 export class IssueRow implements AfterViewInit {
   @Input('issue') issue:Issue;
   @Output('close') close = new EventEmitter();
+  @Output('triage') triage = new EventEmitter();
   touchStartCoords: {x:number, y:number};
   listItemNativeEl:HTMLElement;
   triageNativeEl:HTMLElement;
@@ -132,10 +133,7 @@ export class IssueRow implements AfterViewInit {
     this.triageNativeEl = this.el.nativeElement.querySelector('.hidden-triage');
     this.closeNativeEl = this.el.nativeElement.querySelector('.hidden-close');
     var hammerEl = new Hammer(this.listItemNativeEl);
-    hammerEl.on('swiperight', () => {
-      console.log('triage');
-    });
-
+    hammerEl.on('swiperight', (evt) => this.triage.emit(evt));
     hammerEl.on('swipeleft', (evt) => this.close.next(evt));
   }
 }
