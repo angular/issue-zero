@@ -26,12 +26,36 @@
     }
   </script>
   {{/if}}
-  
+
+  <style>
+    html,body {
+      margin: 0;
+      height: 100%;
+      font-family: Roboto, 'Helvetica Neue', sans-serif;
+
+      /* Support for all WebKit browsers. */
+      -webkit-font-smoothing: antialiased;
+
+      /* Support for Safari and Chrome. */
+      text-rendering: optimizeLegibility;
+
+      /* Support for Firefox. */
+      -moz-osx-font-smoothing: grayscale;
+
+      /* Support for IE. */
+      font-feature-settings: 'liga';
+    }
+    button[md-button] {
+      text-transform: uppercase;
+    }
+
+  </style>
+
 </head>
 <body>
   <issue-zero-app>Loading...</issue-zero-app>
 
-  
+
 
     {{#if environment.production}}
       <script src="/app-concat.js" async></script>
@@ -44,7 +68,7 @@
       </script>
     {{/if}}
 
-  
+
 
 
 

@@ -3,11 +3,55 @@
  **********************************************************************************************/
 /** Map relative paths to URLs. */
 const map: any = {
+  '@angular2-material': 'vendor/@angular2-material',
+  'angularfire2': 'vendor/angularfire2',
+  'firebase': 'vendor/firebase/lib/firebase-web.js',
+  'hammerjs': 'vendor/hammerjs/hammer.min.js',
+  '@ngrx': 'vendor/@ngrx'
 };
 
 /** User packages configuration. */
-const packages: any = {
+var packages: any = {
+  '@ngrx/db': {
+    format: 'cjs',
+    main: 'index.js',
+    defaultExtension: 'js'
+  },
+  '@ngrx/store': {
+    format: 'cjs',
+    main: 'index.js',
+    defaultExtension: 'js'
+  },
+  'config': {
+    main: 'config',
+    defaultExtension: 'js'
+  },
+  'angularfire2': {
+    defaultExtension: 'js',
+    main: 'angularfire2'
+  }
 };
+
+// Add Angular Material packages
+packages = [
+  'button',
+  'card',
+  'checkbox',
+  'core',
+  'icon',
+  'input',
+  'list',
+  'progress-circle',
+  'sidenav',
+  'toolbar'
+].reduce((prev, main) => {
+  return Object.assign({}, prev, {
+    [`@angular2-material/${main}`]: {
+      defaultExtension: 'js',
+      main
+    }
+  })
+}, packages);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////
 /***********************************************************************************************
@@ -22,6 +66,15 @@ const barrels: string[] = [
   '@angular/router',
   '@angular/platform-browser',
   '@angular/platform-browser-dynamic',
+  '@angular/router-deprecated',
+  '@angular/app-shell',
+  '@angular2-material/toolbar',
+  '@angular2-material/card',
+  '@angular2-material/core',
+  '@angular2-material/sidenav',
+  '@angular2-material/button',
+  '@angular2-material/progress-circle',
+  'angularfire2',
 
   // Thirdparty barrels.
   'rxjs',
@@ -29,6 +82,16 @@ const barrels: string[] = [
   // App specific barrels.
   'app',
   'app/shared',
+  'app/+login',
+  'app/+issues',
+  'app/+issues/+list',
+  'app/+issues/+filter',
+  'app/+issues/+triage',
+  'app/+issues/+list/toolbar',
+  'app/+issues/+list/issue-row',
+  'app/+issues/+list/repo-selector-row',
+  'app/+repo-selector',
+  'app/+repo-selector/repo-selector-row',
   /** @cli-barrel */
 ];
 

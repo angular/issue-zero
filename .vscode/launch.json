@@ -1,0 +1,60 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Launch",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceRoot}/node_modules/.bin/ng",
+      "stopOnEntry": false,
+      "args": ["serve"],
+      "cwd": "${workspaceRoot}",
+      "preLaunchTask": null,
+      "runtimeExecutable": null,
+      "runtimeArgs": [
+        "--nolazy"
+      ],
+      "env": {
+        "NODE_ENV": "development"
+      },
+      "externalConsole": false,
+      "sourceMaps": false,
+      "outDir": null
+    },
+    {
+      "name": "ChildProc",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceRoot}/node_modules/angular2-broccoli-prerender/dist/child_proc.js",
+      "stopOnEntry": false,
+      "args": [ "/Users/crossj/Projects/issue-zero/node_modules/angular2-broccoli-prerender/dist/child_proc.js",
+"--sourceHtml=/Users/crossj/Projects/issue-zero/tmp/app_shell_plugin-input_base_path-yrSu8NXb.tmp/0/index.html",
+"--optionsPath=/Users/crossj/Projects/issue-zero/tmp/app_shell_plugin-input_base_path-yrSu8NXb.tmp/0/main-app-shell",
+"--outputIndexPath=/Users/crossj/Projects/issue-zero/tmp/app_shell_plugin-output_path-nPBVCEAe.tmp/index.html" ],
+      "cwd": "${workspaceRoot}",
+      "preLaunchTask": null,
+      "runtimeExecutable": null,
+      "runtimeArgs": [
+        "--nolazy"
+      ],
+      "env": {
+        "NODE_ENV": "development"
+      },
+      "externalConsole": false,
+      "sourceMaps": false,
+      "outDir": null
+    },
+    {
+      "name": "Attach",
+      "type": "node",
+      "request": "attach",
+      "port": 5858,
+      "address": "localhost",
+      "restart": false,
+      "sourceMaps": false,
+      "outDir": null,
+      "localRoot": "${workspaceRoot}",
+      "remoteRoot": null
+    }
+  ]
+}

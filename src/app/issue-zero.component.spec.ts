@@ -14,9 +14,4 @@ describe('App: IssueZero', () => {
       inject([IssueZeroAppComponent], (app: IssueZeroAppComponent) => {
     expect(app).toBeTruthy();
   }));
-
-  it('should have as title \'issue-zero works!\'',
-      inject([IssueZeroAppComponent], (app: IssueZeroAppComponent) => {
-    expect(app.title).toEqual('issue-zero works!');
-  }));
 });
