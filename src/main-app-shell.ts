@@ -12,7 +12,7 @@ import { AngularFire, FIREBASE_PROVIDERS, defaultFirebase } from 'angularfire2';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/observable/empty';
 
-import {FB_URL, IS_POST_LOGIN, LOCAL_STORAGE} from './app/shared/config';
+import {FB_URL, IS_POST_LOGIN, LOCAL_STORAGE} from './app/shared';
 import {IssueZeroAppComponent} from './app/';
 import { GithubService } from './app/github.service';
 

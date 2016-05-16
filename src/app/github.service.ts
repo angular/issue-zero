@@ -9,7 +9,7 @@ import {ScalarObservable} from 'rxjs/observable/ScalarObservable';
 import {ErrorObservable} from 'rxjs/observable/ErrorObservable';
 
 import {User, Issue, Repo, Label} from './types';
-import {LOCAL_STORAGE} from './config';
+import {LOCAL_STORAGE} from './shared';
 
 const GITHUB_API = 'https://api.github.com';
 

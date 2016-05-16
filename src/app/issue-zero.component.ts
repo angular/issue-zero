@@ -19,7 +19,7 @@ import {GithubService} from './github.service';
 import {Repo} from './shared/types';
 // import {RepoSelectorComponent} from './+repo-selector/index';
 import { APP_SHELL_DIRECTIVES, IS_PRERENDER } from '@angular/app-shell';
-import { IS_POST_LOGIN } from './shared/config';
+import { IS_POST_LOGIN } from './shared';
 import { MdIconRegistry } from '@angular2-material/icon';
 
 @Component({

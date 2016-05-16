@@ -6,7 +6,7 @@ import { IssueZeroAppComponent, environment } from './app/';
 import { APP_SHELL_RUNTIME_PROVIDERS } from '@angular/app-shell';
 import {FIREBASE_PROVIDERS, defaultFirebase, AuthMethods, AuthProviders, firebaseAuthConfig} from 'angularfire2';
 import { ROUTER_PROVIDERS } from '@angular/router-deprecated';
-import {FB_URL, IS_POST_LOGIN, LOCAL_STORAGE} from './app/config';
+import {FB_URL, IS_POST_LOGIN, LOCAL_STORAGE} from './app/shared';
 import { GithubService } from './app/github.service';
 import {provideStore} from '@ngrx/store';
 

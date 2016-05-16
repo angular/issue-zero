@@ -3,7 +3,7 @@ import { MdButton } from '@angular2-material/button';
 import { CanActivate } from '@angular/router-deprecated';
 import { AngularFire } from 'angularfire2';
 
-import { FB_URL } from '../shared/config';
+import { FB_URL } from '../shared';
 
 @Component({
   moduleId: module.id,

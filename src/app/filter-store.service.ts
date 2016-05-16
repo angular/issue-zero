@@ -3,7 +3,7 @@ import {Observable} from 'rxjs/Observable';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Operator} from 'rxjs/Operator';
 
-import {LOCAL_STORAGE} from './config';
+import {LOCAL_STORAGE} from './shared';
 
 export const LOCAL_STORAGE_KEY = 'FilterStore.filters';
 
