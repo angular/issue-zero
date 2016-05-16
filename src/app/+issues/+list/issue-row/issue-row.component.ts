@@ -11,6 +11,7 @@ import {MD_LIST_DIRECTIVES} from '@angular2-material/list';
 import {GithubService} from '../../../github.service';
 import {Issue} from '../../../shared/types';
 
+declare var Hammer;
 try {
   require('hammerjs');
 } catch (e) {
