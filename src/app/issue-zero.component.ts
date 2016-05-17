@@ -52,6 +52,10 @@ md-toolbar md-progress-circle[mode="indeterminate"] /deep/ circle {
 .indicator-container md-progress-circle {
   margin: -50px auto 0;
 }
+
+.indicator-container md-progress-circle[mode="indeterminate"] /deep/ circle {
+  stroke: rgb(33, 150, 243) !important;
+}
 `],
   template: `
 <md-sidenav-layout [ngClass]="{'preRendered': isPrerender}" fullscreen>
