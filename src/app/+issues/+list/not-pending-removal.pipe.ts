@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Issue } from '../../shared/types';
+import { Issue } from '../../shared';
 
 @Pipe({
   name: 'notPendingRemoval'

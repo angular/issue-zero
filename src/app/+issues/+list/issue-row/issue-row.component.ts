@@ -9,7 +9,7 @@ import {
 import {MD_LIST_DIRECTIVES} from '@angular2-material/list';
 
 import {GithubService} from '../../../github.service';
-import {Issue} from '../../../shared/types';
+import {Issue} from '../../../shared';
 
 declare var Hammer;
 try {

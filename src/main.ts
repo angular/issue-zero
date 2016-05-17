@@ -6,7 +6,6 @@ import { IssueZeroAppComponent, environment } from './app/';
 import { APP_SHELL_RUNTIME_PROVIDERS } from '@angular/app-shell';
 import {FIREBASE_PROVIDERS, defaultFirebase, AuthMethods, AuthProviders, firebaseAuthConfig} from 'angularfire2';
 import { ROUTER_PROVIDERS } from '@angular/router-deprecated';
-import {FB_URL, IS_POST_LOGIN, LOCAL_STORAGE} from './app/shared';
 import { GithubService } from './app/github.service';
 import {provideStore} from '@ngrx/store';
 
@@ -23,8 +22,17 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/merge';
 
-import {Issue} from './app/shared/types';
-import {repos, issues, labels, users, filters} from './app/shared';
+import {
+  filters,
+  FB_URL,
+  issues,
+  Issue,
+  IS_POST_LOGIN,
+  labels,
+  LOCAL_STORAGE,
+  repos,
+  users
+} from './app/shared';
 
 if (environment.production) {
   enableProdMode();

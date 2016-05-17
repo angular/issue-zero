@@ -9,7 +9,7 @@ import {Observable} from 'rxjs/Observable';
 
 import {RepoSelectorRowComponent} from './repo-selector-row/repo-selector-row.component';
 import {GithubService} from '../github.service';
-import {Repo} from '../shared/types';
+import {Repo} from '../shared';
 
 @Component({
   selector: 'repo-selector',

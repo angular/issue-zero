@@ -10,9 +10,8 @@ import {Observable} from 'rxjs/Observable';
 import {Store} from '@ngrx/store';
 
 import {GithubService} from '../../github.service';
-import {Issue, Label} from '../../shared/types';
 import {RepoParamsService} from '../../repo-params.service';
-import {AppState} from '../../shared';
+import { AppState, Issue, Label } from '../../shared';
 import { ToDate } from './to-date.pipe';
 import { IsChecked } from './is-checked.pipe';
 

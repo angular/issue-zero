@@ -7,9 +7,8 @@ import {Store} from '@ngrx/store';
 
 import {ToolbarComponent} from './toolbar/toolbar.component';
 import {IssueRowComponent} from './issue-row/issue-row.component';
-import {Repo} from '../../shared/types';
+import { AppState, Issue, Repo } from '../../shared';
 import {GithubService} from '../../github.service';
-import {Issue} from '../../shared/types';
 import {
   FilterStoreService,
   Filter,
@@ -18,7 +17,6 @@ import {
   generateQuery
 } from '../../filter-store.service';
 import {RepoParamsService} from '../../repo-params.service';
-import {AppState} from '../../shared';
 import {NotPendingRemoval} from './not-pending-removal.pipe';
 
 @Component({

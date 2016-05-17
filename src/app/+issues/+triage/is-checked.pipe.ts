@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Label, Issue } from '../../shared/types';
+import { Label, Issue } from '../../shared';
 
 @Pipe({
   name: 'isChecked'
