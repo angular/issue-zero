@@ -2,8 +2,8 @@ import { Action } from '@ngrx/store';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
-import { Issue, Repo, Label, User } from './shared/types';
-import { FilterMap } from './filter-store.service';
+import { Issue, Repo, Label, User } from './types';
+import { FilterMap } from '../filter-store.service';
 
 export function issues (state: Issue[] = [], action:Action): Issue[] {
   switch (action.type) {

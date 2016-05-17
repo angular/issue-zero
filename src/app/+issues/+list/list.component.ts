@@ -18,7 +18,7 @@ import {
   generateQuery
 } from '../../filter-store.service';
 import {RepoParamsService} from '../../repo-params.service';
-import {AppState} from '../../store';
+import {AppState} from '../../shared';
 import {NotPendingRemoval} from './not-pending-removal.pipe';
 
 @Component({

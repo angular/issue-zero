@@ -12,7 +12,7 @@ import {Store} from '@ngrx/store';
 import {GithubService} from '../../github.service';
 import {Issue, Label} from '../../shared/types';
 import {RepoParamsService} from '../../repo-params.service';
-import {AppState} from '../../store';
+import {AppState} from '../../shared';
 import { ToDate } from './to-date.pipe';
 import { IsChecked } from './is-checked.pipe';
 

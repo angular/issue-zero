@@ -22,10 +22,6 @@ var packages: any = {
     main: 'index.js',
     defaultExtension: 'js'
   },
-  'config': {
-    main: 'config',
-    defaultExtension: 'js'
-  },
   'angularfire2': {
     defaultExtension: 'js',
     main: 'angularfire2'

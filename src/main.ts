@@ -24,7 +24,7 @@ import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/merge';
 
 import {Issue} from './app/shared/types';
-import {repos, issues, labels, users, filters} from './app/store';
+import {repos, issues, labels, users, filters} from './app/shared';
 
 if (environment.production) {
   enableProdMode();
