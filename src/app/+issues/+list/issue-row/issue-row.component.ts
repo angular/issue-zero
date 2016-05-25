@@ -11,14 +11,6 @@ import {MD_LIST_DIRECTIVES} from '@angular2-material/list';
 import {GithubService} from '../../../github.service';
 import {Issue} from '../../../shared';
 
-declare var Hammer;
-try {
-  require('hammerjs');
-} catch (e) {
-  // Won't work in node, but it's okay
-}
-
-
 @Component({
   selector: 'issue-row',
   template: `
@@ -34,6 +26,8 @@ try {
       (touchmove)="onTouchMove($event)"
       (touchstart)="onTouchStart($event)"
       (touchend)="onTouchEnd($event)"
+      (swiperight)="triage.emit($event)"
+      (swipeleft)="close.next($event)"
       [classList]="[issue.isPendingRemoval ? 'pending-removal': '']">
       <img md-list-avatar [src]="issue.user.avatar_url + '&s=40'" alt="{{issue.user.login}} logo">
       <span md-line> {{issue.title}} </span>
@@ -144,8 +138,5 @@ export class IssueRowComponent implements AfterViewInit {
     this.listItemNativeEl = this.el.nativeElement.querySelector('md-list-item');
     this.triageNativeEl = this.el.nativeElement.querySelector('.hidden-triage');
     this.closeNativeEl = this.el.nativeElement.querySelector('.hidden-close');
-    var hammerEl = new Hammer(this.listItemNativeEl);
-    hammerEl.on('swiperight', (evt) => this.triage.emit(evt));
-    hammerEl.on('swipeleft', (evt) => this.close.next(evt));
   }
 }

@@ -22,6 +22,9 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/merge';
 
+// Just required so that `Hammer` gets added to global namespace
+require('hammerjs');
+
 import {
   filters,
   FB_URL,
