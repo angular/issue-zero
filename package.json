@@ -33,6 +33,7 @@
     "@angular2-material/sidenav": "^2.0.0-alpha.4",
     "@angular2-material/toolbar": "^2.0.0-alpha.4",
     "@ngrx/store": "^1.5.0",
+    "angular-cli": "^1.0.0-beta.4",
     "angularfire2": "^2.0.0-beta.0",
     "es6-shim": "^0.35.0",
     "firebase": "^2.4.2",
