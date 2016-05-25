@@ -1,0 +1,22 @@
+{
+  "firebase": "issue-zero",
+  "public": "dist",
+  "ignore": [
+    "firebase.json",
+    "**/.*",
+    "**/node_modules/**"
+  ],
+  "rewrites": [{
+    "source": "/issues",
+    "destination": "/index.html"
+  },{
+    "source": "/login",
+    "destination": "/index.html"
+  },{
+    "source": "/issues/*/**",
+    "destination": "/index.html"
+  },{
+    "source": "/repo-selector",
+    "destination": "/index.html"
+  }]
+}
